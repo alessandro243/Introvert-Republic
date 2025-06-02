@@ -1,4 +1,12 @@
-# Byte-compiled / optimized / DLL files
+.env
+canal 01
+canal 153
+canal 450
+canal 223
+canal 92
+canal 05
+__pycache__/
+
 __pycache__/
 *.py[cod]
 *$py.class

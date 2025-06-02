@@ -1,0 +1,300 @@
+import discord
+import os
+import random
+import asyncio
+import keyboard
+from discord.ext import commands
+from discord import FFmpegPCMAudio, PCMVolumeTransformer
+import threading
+import time
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.voice_states = True
+intents.guilds = True
+vari = False
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+CANAL_TEXTO_AUTORIZADO = 1354311386100011078
+FFMPEG_PATH = "C:\\Users\\Thalita\\Downloads\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+
+voice_client_global = None
+play_task = None
+current_playlist = []
+playlist_index = 0
+paused = False
+ligado = True
+player = None
+v = 0
+timer_task = None
+cond = None
+
+async def tocar_proxima(ctx):
+    global voice_client_global, current_playlist, playlist_index, paused, timer_task, vari, v, player, cond
+
+    print('oi')
+    if v > 0:
+        v=0
+        vari = True
+
+    with open('estadojuke\\tempomusica.txt', 'w') as file:
+        file.write(str(0))
+    
+    if not current_playlist:
+        await ctx.send("A playlist está vazia.")
+        if voice_client_global and voice_client_global.is_connected():
+            await voice_client_global.disconnect()
+        return
+
+    if playlist_index >= len(current_playlist):
+        playlist_index = 0  # Reinicia a playlist
+
+    musica = current_playlist[playlist_index]
+    caminho_completo = musica
+
+    with open("musics.txt", "w") as file:
+
+        if cond == True:
+            return
+        
+        file.write(caminho_completo + '\n')
+        file.write(os.path.basename(caminho_completo) + '\n')
+    
+    with open('estadojuke\\estadosom.txt', 'r') as file:
+        volum = float(file.read())
+
+    source = FFmpegPCMAudio(caminho_completo, executable=FFMPEG_PATH)
+    source = PCMVolumeTransformer(source, volume=volum)
+
+    player = source  # Atualiza o global player para o objeto atual que será tocado
+
+    voice_client_global.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(tocar_proxima(ctx), bot.loop))
+    await ctx.send(f"Tocando agora: {os.path.basename(musica)}")
+    playlist_index += 1
+    v += 1
+
+async def iniciar_playlist(ctx, pasta):
+    global current_playlist, playlist_index, paused, cond
+    cond = False
+    
+    with open('estadojuke\\audiodiferente.txt', 'w') as file:
+        file.write('False')
+
+    arquivos = [f for f in os.listdir(pasta) if f.endswith((".mp3", ".m4a", ".wav"))]
+    if not arquivos:
+        await ctx.send("Nenhuma música encontrada na pasta.")
+        return
+
+    random.shuffle(arquivos)
+    current_playlist = [os.path.join(pasta, musica) for musica in arquivos]
+    playlist_index = 0
+    paused = False
+
+    await tocar_proxima(ctx)
+
+@bot.event
+async def on_ready():
+    print(f"Bot conectado como {bot.user}")
+
+@bot.event
+async def on_message(message):
+    global voice_client_global, play_task, paused, playlist_index
+
+    if message.author == bot.user:
+        return
+
+    if message.channel.id != CANAL_TEXTO_AUTORIZADO:
+        return
+
+    if message.content.startswith("!play"):
+        if not message.author.voice:
+            await message.channel.send("Você precisa estar em um canal de voz para usar este comando.")
+            return
+
+        # Se o bot já estiver conectado, parar e desconectar para "resetar" a voz
+        if voice_client_global and voice_client_global.is_connected():
+            voice_client_global.stop()
+            await voice_client_global.disconnect()
+            voice_client_global = None
+
+        # Cancelar tarefa de play atual, se existir
+        if play_task and not play_task.done():
+            play_task.cancel()
+
+        # Reconectar no canal do usuário
+        canal = message.author.voice.channel
+        voice_client_global = await canal.connect()
+        with open('estadojuke\\jukeconect.txt', 'w') as f:
+            f.write('False')
+
+        # Escolher pasta baseado no comando
+        pasta = None
+        if message.content.startswith(getenv('PLAYLIST1')):
+            pasta = 'jp_'
+        elif message.content.startswith(getenv('PLAYLIST2')):
+            pasta = 'ro_'
+        elif message.content.startswith(getenv('PLAYLIST3')):
+            pasta = 'a_'
+        elif message.content.startswith(getenv('PLAYLIST4')):
+            pasta = 'sy_'
+        elif message.content.startswith(getenv('PLAYLIST5')):
+            pasta = 'ch_'
+        elif message.content.startswith(getenv('PLAYLIST6')):
+            pasta = 'vi_'
+        elif message.content.startswith(getenv('PLAYLIST7')):
+            pasta = 'mp_'
+        elif message.content.startswith(getenv('PLAYLIST8')):
+            pasta = 'lo_'
+        elif message.content.startswith(getenv('PLAYLIST9')):
+            pasta = 'old_'
+
+
+        if pasta:
+            ctx = message.channel
+            play_task = asyncio.create_task(iniciar_playlist(ctx, pasta))
+
+            asyncio.create_task(atualiza_tempo(voice_client_global))
+        else:
+            await message.channel.send("Comando inválido.")
+
+    elif message.content.startswith("!stop"):
+        if voice_client_global:
+            voice_client_global.stop()
+            await voice_client_global.disconnect()
+            voice_client_global = None
+            await message.channel.send("Reprodução parada e desconectado.")
+            with open('estadojuke\\jukeconect.txt', 'w') as f:
+                f.write('True')
+
+    elif message.content.startswith("!pause"):
+        if voice_client_global and voice_client_global.is_playing():
+            voice_client_global.pause()
+            paused = True
+            await message.channel.send("Música pausada.")
+
+    elif message.content.startswith("!resume"):
+        if voice_client_global and paused:
+            voice_client_global.resume()
+            paused = False
+            await message.channel.send("Música retomada.")
+
+    elif message.content.startswith("!skip"):
+        if voice_client_global and voice_client_global.is_playing():
+            voice_client_global.stop()
+            await message.channel.send("Pulando para a próxima música...")
+
+    await bot.process_commands(message)
+
+def escutar_teclas():
+    canal = bot.get_channel(1354311386100011078)
+    if canal is None:
+        print("Erro: canal não encontrado!")
+        return
+
+    hook_container = [None]  # Lista para armazenar o hook_id
+
+    def ao_apertar(event):
+        print(f"Tecla pressionada: {event.name}")
+        
+        global player
+        if player is None:
+            print("Aviso: player está None no momento.")
+            return
+
+        if event.name == '-':
+            print("Apertou -")
+            player.volume = max(0.0, player.volume - 0.05)
+
+            with open("estado\\estadomute.txt", "r") as file:
+                estadomut = file.read().strip() == 'True'
+            
+            if estadomut:
+                with open("estado\\estadomute.txt", "w") as file:
+                    file.write("False")
+            
+            with open("estadojuke\\estadosom.txt", "w") as file:
+                file.write(str(player.volume))
+
+        elif event.name == '+':
+            print("Apertou +")
+            player.volume = min(1.0, player.volume + 0.05)  # Limita a 1.0 máximo
+            
+
+            with open("estado\\estadomute.txt", "r") as file:
+                estadomut = file.read().strip() == 'True'
+
+            
+            if estadomut:
+                with open("estado\\estadomute.txt", "w") as file:
+                    file.write("False")
+
+            with open("estadojuke\\estadosom.txt", "w") as file:
+                file.write(str(player.volume))
+
+        elif event.name == 'enter':
+            print("Apertou enter - enviando mensagem e desregistrando hook")
+            asyncio.run_coroutine_threadsafe(
+                canal.send(f"Volume: {int(player.volume * 10)}"), bot.loop
+            )
+            keyboard.unhook(hook_container[0])  # Desregistra o hook
+            return False  # Para o keyboard.wait
+
+    hook_container[0] = keyboard.on_press(ao_apertar)
+    print("Esperando tecla 'enter' para sair...")
+    keyboard.wait("enter")
+    print("Saiu do keyboard.wait")
+
+    print(f"Volume salvo: {player.volume}")
+
+
+@bot.command()
+async def volume(ctx):
+    if not ctx.author.voice or not ctx.guild.voice_client:
+        #await ctx.send("❌ Você ou o bot não estão em um canal de voz.")
+        return
+
+    # Verifica se estão no MESMO canal
+    if ctx.author.voice.channel != ctx.guild.voice_client.channel:
+        #await ctx.send("⚠️ Você precisa estar no mesmo canal de voz que o bot para usar esse comando.")
+        return
+    if not ligado:
+        return
+    await ctx.send("Monitorando tecla '- e +' para controle de volume...")
+
+    thread = threading.Thread(target=escutar_teclas, daemon=True)
+    thread.start()
+
+async def atualiza_tempo(voice_client):
+    global vari, timer_task
+    tempo_passado = 0
+    while voice_client.is_connected() and voice_client.is_playing():
+        tempo_passado += 1  # ou calcule o tempo real
+        with open("estadojuke\\tempomusica.txt", "w") as f:
+            f.write(str(tempo_passado))
+        await asyncio.sleep(1)
+        print(vari)
+        if vari:
+            print('vari no if: ', vari)
+            vari = False
+            with open("estadojuke\\tempomusica.txt", "w") as f:
+                f.write(str(0))
+            global timer_task
+
+    # Se já existe timer rodando, cancela ele
+            if timer_task and not timer_task.done():
+                timer_task.cancel()
+            print('oie')
+
+    # cria e inicia um novo timer para contar a música atual
+            timer_task = asyncio.create_task(atualiza_tempo(voice_client_global))
+            break
+
+# func fit
+
+
+bot.run(getenv('TOKKEN_JUKEBOX'))
