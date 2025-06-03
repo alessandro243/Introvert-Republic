@@ -18,6 +18,8 @@ intents.voice_states = True
 intents.guilds = True
 vari = False
 
+intents.message_content = True
+
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 CANAL_TEXTO_AUTORIZADO = 1354311386100011078
@@ -35,6 +37,8 @@ timer_task = None
 cond = None
 
 async def tocar_proxima(ctx):
+    
+    
     global voice_client_global, current_playlist, playlist_index, paused, timer_task, vari, v, player, cond
 
     print('oi')
@@ -74,20 +78,28 @@ async def tocar_proxima(ctx):
     player = source  # Atualiza o global player para o objeto atual que será tocado
 
     voice_client_global.play(player, after=lambda e: asyncio.run_coroutine_threadsafe(tocar_proxima(ctx), bot.loop))
-    await ctx.send(f"Tocando agora: {os.path.basename(musica)}")
+    x = await ctx.send(f"Tocando agora: {os.path.basename(musica)}")
     playlist_index += 1
     v += 1
+    #await ctx.message.delete()
 
 async def iniciar_playlist(ctx, pasta):
     global current_playlist, playlist_index, paused, cond
     cond = False
-    
+
     with open('estadojuke\\audiodiferente.txt', 'w') as file:
         file.write('False')
 
+    # Verifique se a pasta existe
+    if not os.path.exists(pasta):
+        await ctx.send(f"❗ A pasta '{pasta}' não existe.")
+        return
+
     arquivos = [f for f in os.listdir(pasta) if f.endswith((".mp3", ".m4a", ".wav"))]
+    print(f"🎵 Arquivos encontrados na pasta '{pasta}': {arquivos}")
+
     if not arquivos:
-        await ctx.send("Nenhuma música encontrada na pasta.")
+        await ctx.send("❗ Nenhuma música encontrada na pasta.")
         return
 
     random.shuffle(arquivos)
@@ -251,23 +263,86 @@ def escutar_teclas():
 
     print(f"Volume salvo: {player.volume}")
 
+@bot.command()
+async def teste(ctx):
+    await ctx.send(f"Comando funcionando no canal {ctx.channel.name} ({ctx.channel.id})!")
 
 @bot.command()
 async def volume(ctx):
-    if not ctx.author.voice or not ctx.guild.voice_client:
-        #await ctx.send("❌ Você ou o bot não estão em um canal de voz.")
+    global player, ligado
+
+    print(f"Comando chamado em canal: {ctx.channel.id}")
+    print(f"Autor: {ctx.author}")
+    print(f"Está em canal de voz? {ctx.author.voice is not None}")
+    print(f"Bot está ligado? {ligado}")
+
+    # IDs dos canais de texto permitidos
+    canais_autorizados = {
+        1354312920569221211,  # canal 2
+        1354313052060909598,  # canal 3
+        1354313099640963092,
+        1354311386100011078   # canal 4
+    }
+
+    if ctx.channel.id not in canais_autorizados:
+        await ctx.send("⚠️ Este canal não está autorizado a ajustar o volume.")
         return
 
-    # Verifica se estão no MESMO canal
-    if ctx.author.voice.channel != ctx.guild.voice_client.channel:
-        #await ctx.send("⚠️ Você precisa estar no mesmo canal de voz que o bot para usar esse comando.")
+    # Verifica se a pessoa está em algum canal de voz (opcional)
+    if not ctx.author.voice:
+        await ctx.send("⚠️ Você precisa estar em algum canal de voz.")
         return
+
+    # Verifica se o bot está tocando algo
     if not ligado:
+        await ctx.send("⚠️ A jukebox está desligada.")
         return
-    await ctx.send("Monitorando tecla '- e +' para controle de volume...")
 
-    thread = threading.Thread(target=escutar_teclas, daemon=True)
-    thread.start()
+    from discord import PCMVolumeTransformer
+    if not isinstance(player, PCMVolumeTransformer):
+        await ctx.send("⚠️ O player atual não suporta ajuste de volume.")
+        return
+
+    await ctx.send("🎛️ Modo de ajuste de volume ativado. Envie mensagens com `+` para aumentar, `-` para diminuir, ou `enter` para sair.")
+
+    def check(m):
+        return (
+            m.author == ctx.author and
+            m.channel.id in canais_autorizados and
+            ('+' in m.content or '-' in m.content or m.content.lower() == 'enter')
+        )
+
+    while True:
+        try:
+            msg = await bot.wait_for('message', timeout=60.0, check=check)
+
+            if msg.content.lower() == 'enter':
+                await ctx.send(f"✅ Ajuste finalizado com volume em {int(player.volume * 100)}%")
+                break
+
+            mais = msg.content.count('+')
+            menos = msg.content.count('-')
+            ajuste = (mais - menos) * 0.05
+
+            player.volume = min(1.0, max(0.0, player.volume + ajuste))
+
+            with open("estado\\estadomute.txt", "r", encoding="utf-8") as file:
+                estadomut = file.read().strip() == 'True'
+
+            if estadomut:
+                with open("estado\\estadomute.txt", "w", encoding="utf-8") as file:
+                    file.write("False")
+
+            with open("estadojuke\\estadosom.txt", "w", encoding="utf-8") as file:
+                file.write(str(player.volume))
+
+            await ctx.send(f"🔊 Volume ajustado para {int(player.volume * 100)}%")
+
+        except asyncio.TimeoutError:
+            await ctx.send("⏳ Tempo esgotado. Saindo do modo de ajuste de volume.")
+            break
+
+
 
 async def atualiza_tempo(voice_client):
     global vari, timer_task
@@ -293,8 +368,5 @@ async def atualiza_tempo(voice_client):
     # cria e inicia um novo timer para contar a música atual
             timer_task = asyncio.create_task(atualiza_tempo(voice_client_global))
             break
-
-# func fit
-
-
+    
 bot.run(getenv('TOKKEN_JUKEBOX'))

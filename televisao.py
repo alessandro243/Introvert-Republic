@@ -15,7 +15,6 @@ TOKEN = os.getenv('TOKKEN_TELEVISAO')
 
 FFMPEG_PATH = "C:\\Users\\Thalita\\Downloads\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
-PASTAS = []
 ESTADO_DIR = 'estado'
 
 DESCANSO_SEGUNDOS = 60  # tempo para desligar se ficar sozinho
@@ -36,6 +35,7 @@ bot.descanso_task = None
 bot.descanso_contador = 0
 player = None
 ligado = False
+
 
 def setup_arquivos_estado():
     os.makedirs(ESTADO_DIR, exist_ok=True)
@@ -76,11 +76,13 @@ def carregar_ultima_pasta():
     
 async def toca_canal(canal_nome, ctx=None, canal_voz=None):
     global player
+
     if canal_nome not in PASTAS:
         
         if ctx:
-            await ctx.send(f"Pasta inválida. Use: {', '.join(PASTAS)}")
-            print('aqui')
+            
+            await ctx.send("Canal inválido!")
+            
         return
 
     if not canal_voz and ctx:
@@ -94,7 +96,6 @@ async def toca_canal(canal_nome, ctx=None, canal_voz=None):
     if bot.voice_client and bot.voice_client.is_connected():
         print('aqui3')
         await bot.voice_client.disconnect()
-
     # Conecta no canal de voz novo
     try:
         ...
@@ -117,8 +118,7 @@ async def toca_canal(canal_nome, ctx=None, canal_voz=None):
     "acrusher=bits=10:mode=log"                                  # menos crusher pra manter clareza
 )  
     
-    #condição canal secreto
-    
+
     else:
         bot.estado_tocado = True
     bot.canal_atual = canal_nome
@@ -320,8 +320,9 @@ async def ligar(ctx):
 
     # Se o bot ainda não está conectado, conecta ao canal do usuário
     if not ctx.guild.voice_client:
-        ...
+        print('ooooooo')
         #await canal_usuario.connect()
+        
 
     global ligado
     ligado = True
@@ -336,7 +337,7 @@ async def ligar(ctx):
     if canal not in PASTAS:
         canal = 'canal 01'
 
-    await ctx.send(f"Ligando TV no {canal}...")
+    await ctx.send(f"Ligando TV.")
     bot.tarefa_tocando = asyncio.create_task(toca_canal(canal, ctx))
     bot.estado_tocado = True
     bot.canal_atual = canal
@@ -379,6 +380,8 @@ async def desligar(ctx):
 
 @bot.command()
 async def trocar(ctx, *, canal_nome: str):
+    await ctx.message.delete()
+
     canal_nome = canal_nome.lower().strip()
     if not ctx.author.voice or not ctx.guild.voice_client:
         #await ctx.send("❌ Você ou o bot não estão em um canal de voz.")
@@ -395,7 +398,7 @@ async def trocar(ctx, *, canal_nome: str):
             break
 
     if canal_nome not in PASTAS:
-        await ctx.send(f"Canal inválido. Use: {', '.join(PASTAS)}")
+        await ctx.send(f"Canal inválido.")
         return
 
     if not bot.estado_tocado:
@@ -417,8 +420,13 @@ async def trocar(ctx, *, canal_nome: str):
     bot.estado_tocado = True
     bot.canal_atual = canal_nome
     await ctx.send(f"Trocando para o {canal_nome}...")
-
-#canais manuais
+    
+    mensagens = [msg async for msg in ctx.channel.history(limit=1)]
+    for msg in mensagens:
+        try:
+            await msg.delete()
+        except:
+            pass
 
 @bot.event
 async def on_voice_state_update(member, before, after):
@@ -468,6 +476,4 @@ async def on_ready():
     setup_arquivos_estado()
     print(f"Bot conectado como {bot.user}")
 
-#func canal secreto
-
-
+bot.run(TOKEN)

@@ -13,21 +13,18 @@ local_mingau = locais[random.randint(0, 3)]
 def swtchLoc(local):
     global local_mingau
     global mingau_inte
-
     local_mingau = locais[random.randint(0, 1)]
-    print("Mingal saiu de ", local)
-    print("Mingal foi para ", local_mingau)
+    print("Mingau saiu de ", local)
+    print("Mingau foi para ", local_mingau)
     mingau_inte = 0
 
-
 intents = discord.Intents.default()
-intents.message_content = True  # MUITO IMPORTANTE para ler o conteúdo das mensagens
+intents.message_content = True
+intents.voice_states = True  # <- necessário para detectar entrada/saída de canais de voz
+
 client = discord.Client(intents=intents)
 
-# ID do canal onde o Mingal vive
-CANAL_MINGAL_ID = 1365765011464523910  # <- você vai colocar o ID do seu canal aqui
-
-# Frases que Mingal pode responder
+CANAL_MINGAL_ID = 1365765011464523910  # Substitua pelo ID do seu canal de texto
 
 frases_mingau_mesa = [
     "Mingau está a ronronar...",
@@ -75,52 +72,76 @@ async def on_message(message):
     antigo_local = local_mingau
     global mingau_inte
 
-    print(mingau_inte)
+    if message.author == client.user:
+        return  # Ignora as próprias mensagens do bot
 
-    # Comando para limpar mensagens
     if message.content.lower() == getenv('SECRET_MINGAU'):
-        #if message.channel.id == CANAL_MINGAL_ID:
-            if message.author.guild_permissions.manage_messages:  # Verifica se o autor da mensagem tem permissão
-                quantidade = int(message.content.split()[1]) if len(message.content.split()) > 1 else 100  # Quantas mensagens limpar
-                await message.channel.send("Você ativou o poder oculto do Mingau...")
-                await message.channel.send("Seus olhos começam a brilhar... todos perdem a memória de tudo o que já foi dito nessa sala")
-                time.sleep(2)
-                await message.channel.purge(limit=quantidade)
-            else:
-                await message.channel.send("Você não tem permissão para limpar as mensagens!", delete_after=5)
+        await message.delete()
+        if message.author.guild_permissions.manage_messages:
+            quantidade = int(message.content.split()[1]) if len(message.content.split()) > 1 else 100
+            await message.channel.send("Você ativou o poder oculto do Mingau...")
+            await message.channel.send("Seus olhos começam a brilhar... todos perdem a memória de tudo o que já foi dito nessa sala")
+            time.sleep(2)
+            await message.channel.purge(limit=quantidade)
+        else:
+            await message.channel.send("Você não tem permissão para limpar as mensagens!", delete_after=5)
 
-    # Lógica do Mingau
     if mingau_inte > 2 and random.randint(0, 1) == 1:
         swtchLoc(antigo_local)
         localiza_mingau = f"Mingau saiu de {antigo_local} para {local_mingau}" if antigo_local != local_mingau else "Mingau repentinamente olhou para a vidraça..."
         await message.channel.send(localiza_mingau)
 
-    if message.author == client.user:
-        return  # Ignora as próprias mensagens do bot
-
     if message.content.lower() == getenv('COMANDO_MIAU'):
+        await message.delete()
         if message.channel.id == CANAL_MINGAL_ID:
+            mingau_inte += 1
             if local_mingau == "mesa":
-                mingau_inte += 1
                 resposta = random.choice(frases_mingau_mesa)
-
             elif local_mingau == "chão":
-                mingau_inte += 1
                 resposta = random.choice(frases_mingau_chao)
-
             elif local_mingau == "sofá":
-                mingau_inte += 1
                 resposta = random.choice(frases_mingau_sofa)
-
             elif local_mingau == "varanda":
-                mingau_inte += 1
                 resposta = random.choice(frases_mingau_varanda)
 
             if "Mingau miou." in resposta:
                 await message.channel.send(file=discord.File("mingau_miando.mp3"))
             await message.channel.send(resposta)
-        else:
-            ...
 
+@client.event
+async def on_voice_state_update(member, before, after):
+    # Ignora se for bot
+    if member.bot:
+        return
+
+    canal_voz = after.channel
+    guild = member.guild
+
+    # Se a pessoa entrou em um canal de voz
+    if canal_voz and before.channel != canal_voz:
+        voice_client = guild.voice_client
+
+        if not voice_client or not voice_client.is_connected():
+            try:
+                vc = await canal_voz.connect()
+                print(f"Mingau entrou no canal de voz: {canal_voz.name}")
+
+                # Toca som do mingau miando
+                vc.play(discord.FFmpegPCMAudio("mingau_miando.mp3"))
+                
+                # Envia texto no canal de texto
+                canal_texto = discord.utils.get(guild.text_channels, id=CANAL_MINGAL_ID)
+                if canal_texto:
+                    await canal_texto.send("🐾 Mingau pulou no canal de voz quando alguém chegou!")
+            except Exception as e:
+                print(f"Erro ao conectar o Mingau: {e}")
+
+    # Se Mingau está sozinho no canal, ele sai
+    voice_client = guild.voice_client
+    if voice_client and voice_client.channel and len(voice_client.channel.members) == 1:
+        await voice_client.disconnect()
+        print("Mingau saiu do canal porque ficou sozinho.")
+
+# Inicia o bot
 TOKEN = getenv('TOKKEN_MINGAU')
 client.run(TOKEN)
