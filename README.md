@@ -15,14 +15,15 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
   <img width="120" src="imagens\corredor.png" />
 </p>
 
-<p>
-  <span style="font-size: 11px; margin: 0 50px; display: inline; margin-right: 20px;">ADM_bot</span>
-  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 10px;">Mingau</span>
-  <span style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 0px;">Sala</span>
-  <span style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 20px;">Televisão</span>
-  <span style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 10px;">Escadaria</span>
-  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 40px;">Corredor</span>
+<p style="font-size:11px;">
+  <span style = "margin-left: 55px;">ADM_bot</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Mingau</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Sala</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Televisão</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Escadaria</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Corredor</span>
 </p>
+
 <p>
 
 </p>
@@ -36,14 +37,16 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
   <img width="120" src="imagens\fone2.png" />
 </p>
 
-<p>
-  <span style="font-size: 11px; margin: 0 55px; display: inline; margin-right: 5px;">Banheiro</span>
-  <span style="font-size: 11px; margin: 0 75px; display: inline; margin-right: 15px;">Exterior</span>
-  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 20px;">Jukebox</span>
-  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 5px;">Arcade</span>
-  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 0px;">Áudio saída</span>
-  <span style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 40px;">Áudio varanda</span>
+<p style="font-size:11px;">
+  <span style = "margin-left: 55px;">Banheiro</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Exterior</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Jukebox</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Arcade</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Áudio saída</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Áudio varanda</span>
 </p>
+
+
 <p>
 
 <p>
