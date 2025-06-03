@@ -15,15 +15,14 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
   <img width="120" src="imagens\corredor.png" />
 </p>
 
-<h3>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 50px; display: inline; margin-right: 20px;">ADM_bot</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 10px;">Mingau</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 0px;">Sala</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 20px;">Televisão</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 10px;">Escadaria</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 40px;">Corredor</h4>
-</h3>
-
+<p>
+  <span style="font-size: 11px; margin: 0 50px; display: inline; margin-right: 20px;">ADM_bot</span>
+  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 10px;">Mingau</span>
+  <span style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 0px;">Sala</span>
+  <span style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 20px;">Televisão</span>
+  <span style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 10px;">Escadaria</span>
+  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 40px;">Corredor</span>
+</p>
 <p>
 
 </p>
@@ -37,14 +36,15 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
   <img width="120" src="imagens\fone2.png" />
 </p>
 
-<h3>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 55px; display: inline; margin-down: 10px; margin-right: 5px;">Banheiro</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 75px; display: inline; margin-down: 10px; margin-right: 15px;">Exterior</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 20px;">Jukebox</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 5px;">Arcade</h4>
-  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 0px;">Áudio saída</h4>
-  <h4 aligment="left" style="font-size: 10px; margin: 0 60px; display: inline; margin-down: 10px; margin-right: 40px;">Áudio varanda</h4>
-</h3>
+<p>
+  <span style="font-size: 11px; margin: 0 55px; display: inline; margin-right: 5px;">Banheiro</span>
+  <span style="font-size: 11px; margin: 0 75px; display: inline; margin-right: 15px;">Exterior</span>
+  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 20px;">Jukebox</span>
+  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 5px;">Arcade</span>
+  <span style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 0px;">Áudio saída</span>
+  <span style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 40px;">Áudio varanda</span>
+</p>
+<p>
 
 <p>
 
