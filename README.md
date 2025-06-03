@@ -7,21 +7,21 @@ Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, so
 Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Sete cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 12 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
 
 <p align="left" >
-  <img width="160" src="imagens\adm.png" />
-  <img width="160" src="imagens\mingau.png" />
-  <img width="160" src="imagens\sala.png" />
-  <img width="160" src="imagens\televisao.png" />
-  <img width="160" src="imagens\escada.png" />
-  <img width="160" src="imagens\corredor.png" />
+  <img style="margin-left: 20px;" width="120" src="imagens\adm.png" />
+  <img width="120" src="imagens\mingau.png" />
+  <img width="120" src="imagens\sala.png" />
+  <img width="120" src="imagens\televisao.png" />
+  <img width="120" src="imagens\escada.png" />
+  <img width="120" src="imagens\corredor.png" />
 </p>
 
 <h3>
-  <h4 aligment="left" style="margin: 0 50px; display: inline; margin-right: 40px;">ADM_bot</h4>
-  <h4 aligment="left" style="margin: 0 65px; display: inline; margin-right: 40px;">Mingau</h4>
-  <h4 aligment="left" style="margin: 0 80px; display: inline; margin-right: 20px;">Sala</h4>
-  <h4 aligment="left" style="margin: 0 100px; display: inline; margin-right: 20px;">Televisão</h4>
-  <h4 aligment="left" style="margin: 0 80px; display: inline; margin-right: 40px;">Escadaria</h4>
-  <h4 aligment="left" style="margin: 0 75px; display: inline; margin-right: 40px;">Corredor</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 50px; display: inline; margin-right: 20px;">ADM_bot</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 10px;">Mingau</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 0px;">Sala</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 80px; display: inline; margin-right: 20px;">Televisão</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 60px; display: inline; margin-right: 10px;">Escadaria</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-right: 40px;">Corredor</h4>
 </h3>
 
 <p>
@@ -29,21 +29,21 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 </p>
 
 <p align="left" display="flex">
-  <img width="160" src="imagens\banheiro.png" />
-  <img width="160" src="imagens\exterior.png" />
-  <img width="160" src="imagens\jukebox.png" />
-  <img width="160" src="imagens\fliperama.png" />
-  <img width="160" src="imagens\fone1.png" />
-  <img width="160" src="imagens\fone2.png" />
+  <img style="margin-left: 20px;" width="120" src="imagens\banheiro.png" />
+  <img width="120" src="imagens\exterior.png" />
+  <img width="120" src="imagens\jukebox.png" />
+  <img width="120" src="imagens\fliperama.png" />
+  <img width="120" src="imagens\fone1.png" />
+  <img width="120" src="imagens\fone2.png" />
 </p>
 
 <h3>
-  <h4 aligment="left" style="margin: 0 45px; display: inline; margin-down: 10px; margin-right: 40px;">Banheiro</h4>
-  <h4 aligment="left" style="margin: 0 75px; display: inline; margin-down: 10px; margin-right: 35px;">Exterior</h4>
-  <h4 aligment="left" style="margin: 0 65px; display: inline; margin-down: 10px; margin-right: 50px;">Jukebox</h4>
-  <h4 aligment="left" style="margin: 0 65px; display: inline; margin-down: 10px; margin-right: 40px;">Arcade</h4>
-  <h4 aligment="left" style="margin: 0 65px; display: inline; margin-down: 10px; margin-right: 10px;">Áudio saída</h4>
-  <h4 aligment="left" style="margin: 0 65px; display: inline; margin-down: 10px; margin-right: 40px;">Áudio varanda</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 55px; display: inline; margin-down: 10px; margin-right: 5px;">Banheiro</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 75px; display: inline; margin-down: 10px; margin-right: 15px;">Exterior</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 20px;">Jukebox</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 5px;">Arcade</h4>
+  <h4 aligment="left" style="font-size: 11px; margin: 0 65px; display: inline; margin-down: 10px; margin-right: 0px;">Áudio saída</h4>
+  <h4 aligment="left" style="font-size: 10px; margin: 0 60px; display: inline; margin-down: 10px; margin-right: 40px;">Áudio varanda</h4>
 </h3>
 
 <p>
