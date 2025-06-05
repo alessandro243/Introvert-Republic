@@ -4,9 +4,9 @@
 
 Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, sob as luzes coloridas, nós aproveitamos o anonimato e a vibe da leve chuva que cai lá fora, ao som de diversas playlists. Você pode escolher um lugar tranquilo para conversar descontraidamente, então escolha uma mesa no bar e ligue a jukebox ou vasculhe cada segredo em nossa república.
 
-<p align="center" style="font-size: 15px"><b>Demo do servidor:</b></p>
+<p style="font-size: 15px"><b>Demo do servidor:</b></p>
 <a href="https://www.youtube.com/watch?v=0YLoEgbq0yo" target="_blank">
-  <img src="gifdemo.gif" width="600" style="display: block; margin: auto;" />
+  <img src="gifdemo.gif" width="600" />
 </a>
 <p align="center" style="font-size: 10px">Clique para ver o conteúdo completo.</p>
 
