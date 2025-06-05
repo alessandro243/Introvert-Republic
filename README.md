@@ -4,6 +4,12 @@
 
 Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, sob as luzes coloridas, nós aproveitamos o anonimato e a vibe da leve chuva que cai lá fora, ao som de diversas playlists. Você pode escolher um lugar tranquilo para conversar descontraidamente, então escolha uma mesa no bar e ligue a jukebox ou vasculhe cada segredo em nossa república.
 
+<p align="center" style="font-size: 15px"><b>Demo do servidor:</b></p>
+<a href="https://www.youtube.com/watch?v=0YLoEgbq0yo" target="_blank">
+  <img src="gifdemo.gif" width="600" style="display: block; margin: auto;" />
+</a>
+<p align="center" style="font-size: 10px">Clique para ver o conteúdo completo.</p>
+
 Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Sete cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 12 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
 
 <table>
@@ -48,6 +54,10 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
     <td align="center">
       <img src="imagens\banheiro.png" width="150"/><br>
       <sub><strong>Banheiro</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\bar.png" width="150"/><br>
+      <sub><strong>Bar</strong></sub>
     </td>
     <td align="center">
       <img src="imagens\exterior.png" width="150"/><br>
@@ -169,6 +179,17 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
     <td>
       <b>Corredor: Caminho para a saída.</b><br>
       Esse é um lugar onde não se fica por muito tempo. É iluminado pela luz do fundo e da rua, que atravessa a porta de vidro. Você pode ouvir uma música ao longe, contrastando com a calmaria que se vê além da porta de vidro, enquanto desce esse corredor ouvindo seus próprios passos sob a iluminação vermelha fraca. O bot desse cômodo reproduz o som respeitando o timer da jukebox e de acordo com suas especificidades.
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<table>
+  <tr>
+    <td>
+      <b>Bar: Alma sonora da república.</b><br>
+      Não é um bot, mas é parte importantíssima da república. Aqui é o centro musical do nosso lar, é onde surge a rede de áudio que pode ser ouvida e rastreada de qualquer cômodo. É onde você descansa e socializa ouvindo uma música tranquila. Durante a semana o local é reservado para nossos membros, mas nos domingos o bar é aberto ao público geral a partir das 18hrs e até as meia noite. 
     </td>
   </tr>
 </table>
