@@ -256,10 +256,10 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 
 Linguagens, ferramentas e bibliotecas utilizadas no desenvolvimento do projeto:
 
-* [Python:](https://www.python.org/) a alma por trás da lógica, tomada de decisões e reatividade dos bots.
-* [discord.py:](https://discordpy.readthedocs.io/en/stable/) biblioteca fundamental para comunicação com a API do Discord, permitindo a criação de bots personalizados e dinâmicos.
+* [Python:](https://www.python.org/) A alma por trás da lógica, tomada de decisões e reatividade dos bots.
+* [discord.py:](https://discordpy.readthedocs.io/en/stable/) Biblioteca fundamental para comunicação com a API do Discord, permitindo a criação de bots personalizados e dinâmicos.
 * [discord:](https://discord.com/)
-* [.txt:](https://www.w3schools.com/python/python_file_open.asp) usados como pontes entre os bots, sincronizando músicas, ambientes e respostas como se todos compartilhassem a mesma consciência.
+* [.txt:](https://www.w3schools.com/python/python_file_open.asp) Usados como pontes entre os bots, sincronizando músicas, ambientes e respostas como se todos compartilhassem a mesma consciência.
 
 <hr>
 ##  🪄 Como rodar o projeto
