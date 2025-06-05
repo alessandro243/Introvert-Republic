@@ -10,7 +10,7 @@ Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, so
 </a>
 <p style="font-size: 10px">Clique para ver o conteúdo completo.</p>
 
-Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Sete cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 13 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
+Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Seis cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 13 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
 
 <table>
   <tr>
