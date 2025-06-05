@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # IDs dos canais
 ID_CANAL_DE_VOZ = 1365765011464523910
-ID_CANAL_TEXTO = 1221650782364762164  # Canal para logs e comandos
+ID_CANAL_TEXTO = 1221650782364762164
 
 # Caminho do ffmpeg
 FFMPEG_PATH = r"C:\Users\Thalita\Downloads\ffmpeg-7.1.1-essentials_build\ffmpeg-7.1.1-essentials_build\bin\ffmpeg.exe"
@@ -26,7 +26,6 @@ FFMPEG_PATH = r"C:\Users\Thalita\Downloads\ffmpeg-7.1.1-essentials_build\ffmpeg-
 voice_client_global = None
 player = None
 
-# Variáveis globais de estado
 ultimo_volume = None
 ultima_porta_fechada = None
 ultima_musica_nome = None
@@ -35,13 +34,12 @@ async def tocar_musica_com_ajustes(voice_client, caminho, timer, volume_base, po
     global player, ultimo_volume, ultima_porta_fechada
 
     if porta_fechada:
-        lowpass_freq = 1000   # som abafado
+        lowpass_freq = 1000
         volume_ajustado = volume_base / 2.5 / 2
     else:
-        lowpass_freq = 1400  # som aberto
+        lowpass_freq = 1400
         volume_ajustado = (volume_base / 1.5)
 
-    # Filtro simples lowpass (sem ruído)
     ffmpeg_options = f'-af lowpass=f={lowpass_freq}'
 
     if voice_client.is_playing():
@@ -64,7 +62,6 @@ async def tocar_musica_com_ajustes(voice_client, caminho, timer, volume_base, po
 async def on_voice_state_update(member, before, after):
     global voice_client_global
 
-    # Entrou no canal alvo
     if after.channel and after.channel.id == ID_CANAL_DE_VOZ and not member.bot:
         if not voice_client_global or not voice_client_global.is_connected():
             canal = after.channel
@@ -73,7 +70,6 @@ async def on_voice_state_update(member, before, after):
             asyncio.create_task(loop_musica(voice_client_global))
             asyncio.create_task(verificar_volume_dinamico())
 
-    # Saiu do canal alvo, verifica se vazio para desconectar
     if before.channel and before.channel.id == ID_CANAL_DE_VOZ:
         canal = before.channel
         if len([m for m in canal.members if not m.bot]) == 0:
@@ -88,7 +84,20 @@ async def loop_musica(voice_client):
 
     while voice_client.is_connected():
         try:
-            # Checa se a jukebox está online
+            with open("estadojuke\\pause.txt", 'r') as fi:
+                pausado = fi.read().strip() == 'True'
+
+            if pausado:
+                if voice_client.is_playing():
+                    voice_client.pause()
+                    print("⏸️ Música pausada")
+                await asyncio.sleep(3)
+                continue
+            else:
+                if voice_client.is_paused():
+                    voice_client.resume()
+                    print("▶️ Música retomada")
+
             if os.path.exists("estadojuke/online.txt"):
                 with open("estadojuke/online.txt", "r") as f:
                     online = f.read().strip() == "True"
@@ -117,9 +126,13 @@ async def loop_musica(voice_client):
                 caminho = linhas[0].strip()
                 nome = linhas[1].strip() if len(linhas) > 1 else os.path.basename(caminho)
 
-            if nome != ultima_musica_nome:
-                print(f"Nova música detectada: {nome}")
-                ultima_musica_nome = nome
+            if voice_client.is_playing() and nome == ultima_musica_nome:
+                print("🎵 Já tocando essa música — aguardando...")
+                await asyncio.sleep(3)
+                continue
+
+            print(f"🎶 Nova música detectada: {nome}")
+            ultima_musica_nome = nome
 
             with open("estadojuke\\tempomusica.txt", "r") as file:
                 timer = int(file.read())
@@ -158,7 +171,6 @@ async def verificar_volume_dinamico():
 
             novo_volume = (volume_base / 2.5) / 2 if porta_fechada else (volume_base / 2.5) * 2
 
-            # Reinicia a música só se o estado da porta (filtro) mudou
             if porta_fechada != ultima_porta_fechada:
                 with open("musics.txt", "r") as file:
                     linhas = file.readlines()
@@ -172,7 +184,6 @@ async def verificar_volume_dinamico():
                 ultima_porta_fechada = porta_fechada
                 ultimo_volume = novo_volume
 
-            # Atualiza só o volume no player, sem reiniciar a música
             elif abs(novo_volume - ultimo_volume) > 0.01:
                 player.volume = novo_volume
                 print(f"🔊 Volume atualizado para {novo_volume:.2f}")
@@ -194,8 +205,6 @@ async def fechar(ctx):
 
         with open('estadoambiente\\portasala.txt', 'w') as file:
             file.write("True")
-    else:
-        ...
 
 @bot.command()
 async def abrir(ctx):
@@ -210,7 +219,5 @@ async def abrir(ctx):
 
         with open('estadoambiente\\portasala.txt', 'w') as file:
             file.write("False")
-    else:
-        ...
 
 bot.run(os.getenv('TOKKEN_SOM_SALA'))

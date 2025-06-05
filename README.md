@@ -6,45 +6,71 @@ Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, so
 
 Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Sete cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 12 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
 
-<p align="left" >
-  <img style="margin-left: 20px;" width="120" src="imagens\adm.png" />
-  <img width="120" src="imagens\mingau.png" />
-  <img width="120" src="imagens\sala.png" />
-  <img width="120" src="imagens\televisao.png" />
-  <img width="120" src="imagens\escada.png" />
-  <img width="120" src="imagens\corredor.png" />
-</p>
-
-<p style="font-size:11px;">
-  <span style = "margin-left: 55px;">ADM_bot</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Mingau</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Sala</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Televisão</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Escadaria</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Corredor</span>
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <img src="imagens\adm.png" width="150"/><br>
+      <sub><strong>ADM_bot</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\mingau.png" width="150"/><br>
+      <sub><strong>Mingau</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\cordano.png" width="150"/><br>
+      <sub><strong>Cordano</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\televisao.png" width="150"/><br>
+      <sub><strong>Televisão</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\escada.png" width="150"/><br>
+      <sub><strong>Escadaria</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\corredor.png" width="150"/><br>
+      <sub><strong>Corredor</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\sala.png" width="150"/><br>
+      <sub><strong>Sala</strong></sub>
+    </td>
+  </tr>
+</table>
 
 <p>
 
 </p>
 
-<p align="left" display="flex">
-  <img style="margin-left: 20px;" width="120" src="imagens\banheiro.png" />
-  <img width="120" src="imagens\exterior.png" />
-  <img width="120" src="imagens\jukebox.png" />
-  <img width="120" src="imagens\fliperama.png" />
-  <img width="120" src="imagens\fone1.png" />
-  <img width="120" src="imagens\fone2.png" />
-</p>
-
-<p style="font-size:11px;">
-  <span style = "margin-left: 55px;">Banheiro</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Exterior</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Jukebox</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Arcade</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Áudio saída</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Áudio varanda</span>
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <img src="imagens\banheiro.png" width="150"/><br>
+      <sub><strong>Banheiro</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\exterior.png" width="150"/><br>
+      <sub><strong>Exterior</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\jukebox.png" width="150"/><br>
+      <sub><strong>Jukebox</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\fliperama.png" width="150"/><br>
+      <sub><strong>Arcade</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\fone1.png" width="150"/><br>
+      <sub><strong>Áudio saída</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\fone2.png" width="150"/><br>
+      <sub><strong>Áudio varanda</strong></sub>
+    </td>
+  </tr>
+</table>
 
 
 <p>
@@ -58,7 +84,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>ADM_Bot: ambientador.</b><br>
+      <b>ADM_Bot: Ambientador.</b><br>
       Essa entidade programada é uma peça central da experiência. Ela assume a imagem do logo do nosso servidor. A ADM é quem guiará você para garantir que aproveite o ambiente da forma mais imersiva possível. Ela é programada para, caso você esteja conversando desconectado do canal de áudio referente ao canal de texto em que está, avisar e enviar o convite para que você tenha essa experiência auditiva completa.
     </td>
   </tr>
@@ -70,7 +96,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Mingau: gato digital.</b><br>
+      <b>Mingau: Gato digital.</b><br>
       Esse é o mascote da nossa república. Ele fica somente na sala principal e tem interações diversas que variam dinamicamente de acordo com o lugar da sala. Até então, ele transita entre o sofá, o chão, a mesa e a varanda. Você pode usar o comando !mingau para interagir com ele; ele responderá aleatoriamente de acordo com o local do cômodo. Tem praticamente a programação de um NPC de jogo.
     </td>
   </tr>
@@ -82,7 +108,18 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Televisão: um portal no tempo.</b><br>
+      <b>Cordano: Voz da lore.</b><br>
+      Cordano é o barman da nossa república. Você pode sentar-se ao balcão e conversar com ele, se souber perguntar, a conversa pode ser reveladora. Ele é capaz de responder de forma personalizada e dinâmica aos seus cumprimentos e perguntas. Cordano não usa comandos, então sente-se e digira-se diretamente a ele pelo nome.
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<table>
+  <tr>
+    <td>
+      <b>Televisão: Um portal no tempo.</b><br>
       A TV é a janela para você viajar pelo tempo e espaço. Ela transmite imagens e sons que conversam com o ambiente, ela passa filmes clássicos, desenhos, animes antigos, clássicos dos esportes e notícias que marcaram a história. O bot da TV controla o volume e a programação, sempre sintonizado para complementar a trilha sonora da sala principal. Com comandos simples, você pode ajustar o som, pausar ou retomar a transmissão, criando uma experiência audiovisual integrada. Você pode descobrir novos canais e horários secretos.
     </td>
   </tr>
@@ -93,7 +130,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Jukebox: centro da imersão.</b><br>
+      <b>Jukebox: Centro da imersão.</b><br>
       O coração sonoro do nosso lar. Do bar, esse é o bot responsável por definir qual será a música tocada em toda a república. Ele é capaz de construir o tecido sonoro de todo o ambiente por meio de arquivos de texto. Através desses arquivos, transcreve as informações necessárias para que os bots de som ambiente de todos os cômodos possam reproduzir o mesmo áudio, respeitando as especificidades de cada um.
       Você pode escolher uma playlist através do comando play[nome da playlist]. Ele tocará músicas do ritmo escolhido aleatoriamente, e você poderá controlar o som com os comandos !volume, !stop, !pause, !resume e !skip. Além das playlists, também é possível encontrar, pelos cômodos do servidor, fitas secretas que podem ser reproduzidas na jukebox com o comando !fita[código da fita].
     </td>
@@ -106,7 +143,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Arcade: enriquecedor de ambiente.</b><br>
+      <b>Arcade: Enriquecedor de ambiente.</b><br>
       Esse bot habita e agrega ao ambiente do bar. Ele reproduz aleatoriamente sons de arcade e de copos ao fundo, tocando efeitos sonoros de jogos de arcade da década de 2000. Também é responsável por detectar se a jukebox está online e conectada ao canal.
     </td>
   </tr>
@@ -117,7 +154,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Sala pricipal: descontração alternativa.</b><br>
+      <b>Sala pricipal: Descontração alternativa.</b><br>
       A sala principal é uma área mais reservada, de diversão alternativa e à parte dos outros cômodos. Também é a casa do nosso pet Mingau e de outros dois bots: o de som ambiente da varanda e o nosso bot de televisão. Através dos comandos !fechar e !abrir, você consegue gerir o volume vindo do bar e da jukebox, pois o bot de som ambiente da sala, assim como os demais, simula um som externo que invade o ambiente por meio de arquivos .txt. Esses arquivos também permitem que ele detecte se a jukebox está tocando e reproduza a música com a mesma cronometragem.
       Assim, você pode fechar a porta da sala principal para ouvir melhor a noite ou a nossa TV.
     </td>
@@ -130,7 +167,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Corredor: caminho para a saída.</b><br>
+      <b>Corredor: Caminho para a saída.</b><br>
       Esse é um lugar onde não se fica por muito tempo. É iluminado pela luz do fundo e da rua, que atravessa a porta de vidro. Você pode ouvir uma música ao longe, contrastando com a calmaria que se vê além da porta de vidro, enquanto desce esse corredor ouvindo seus próprios passos sob a iluminação vermelha fraca. O bot desse cômodo reproduz o som respeitando o timer da jukebox e de acordo com suas especificidades.
     </td>
   </tr>
@@ -141,7 +178,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Exterior: som da noite.</b><br>
+      <b>Exterior: Som da noite.</b><br>
       Saiba que você sempre pode descansar de um dia cansativo ou socializar sem compromisso com outras pessoas desconhecidas. Aqui, você vem quando está cansado da vibe introspectiva da república ou simplesmente quer pegar um ar fresco e ver a rua molhada refletindo as luzes dos postes. Faz um pouco de frio. Do outro lado da rua, há o muro de um campinho de futebol, com árvores na calçada e, às vezes, alguns cavalos. Mas, em geral, a rua não é muito movimentada. Você pode aproveitar a brisa gelada da chuva, conversando sentado nos degraus que levam da porta de vidro do corredor para a rua. Aqui, você ouve sons ao fundo: pássaros, buzinas e outros sons da madrugada.
     </td>
     <td><img src="imagens\corcut.png" width="500"></td>
@@ -153,7 +190,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Áudio saída: intermédio interior/exterior.</b><br>
+      <b>Áudio saída: Intermédio interior/exterior.</b><br>
       Esse bot é responsável por levar o som da música para a saída da república. Ele também controla o volume desse áudio com os comandos !abrir e !fechar. Assim, a partir dele, você pode ouvir bem ao fundo o som da música, de acordo com o estado da porta, enquanto tem uma conversa tranquila.
     </td>
   </tr>
@@ -164,7 +201,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Áudio varanda: completa a sala.</b><br>
+      <b>Áudio varanda: Completa a sala.</b><br>
       Ele completa o tom tranquilo da sala, trazendo para a varanda um clima relaxante. Ocasionalmente, ele reproduz o som de chuva na varanda, que cobre os outros sons da madrugada. Ele oferece comandos para você controlar o som exterior da varanda, como !fechar e !abrir varanda. Assim, ao abrir a porta para o corredor e a varanda, a sala é invadida pela música e pelo som exterior.
     </td>
   </tr>
@@ -175,7 +212,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Escadaria: repouso alternativo.</b><br>
+      <b>Escadaria: Repouso alternativo.</b><br>
       Você pode vir aqui para ficar sentada nos degraus, conversando e atrapalhando a passagem de quem sobe ou desce, enquanto rabisca as paredes. Todo lugar pode ser um espaço para uma boa socialização virtual, então curta a fumaça iluminada pelo tom verde da iluminação fraca. O bot desse cômodo reproduz o som respeitando o timer da jukebox e de acordo com suas especificidades.
     </td>
   </tr>
@@ -186,7 +223,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td>
-      <b>Banheiro: calmaria e solidão.</b><br>
+      <b>Banheiro: Calmaria e solidão.</b><br>
       Esse é o lugar menos movimentado; daqui dá para ouvir um som abafado que vem da jukebox. Aqui é o canto mais reservado da república, então, caso queira conversar mais discretamente ou usar alguma substância alternativa em um lugar mais calmo, aproveite. Além de ser calmo, é escuro e azulado — o tom azul reflete no azulejo branco e nas pichações das paredes e portas. Você pode usar os comandos !fechar e !abrir para controlar o volume do som que vem do bar. O bot desse cômodo reproduz o som respeitando o timer da jukebox e de acordo com suas especificidades.
     </td>
     <td><img src="imagens\bacut.png" width="500"></td>
@@ -220,12 +257,15 @@ Implementar um jogo real e autoral ao nosso arcade, refinar e atualizar nossos b
 <p align="center"><b>Atuais membros da nossa Cyber-república:</b></p>
 <br>
 
-<p align="right" display="flex">
-  <img style="margin-right: 20" width="100" src="imagens\ws.png" />
-  <img style="margin-right: 20" width="100" src="imagens\mk.png" />
-</p>
-
-<h3>
-  <h4 aligment="left" style="font-size: 10px; margin: 0 855px; display: inline; margin-right: 15px;">Wadering Soul</h4>
-  <h4 aligment="left" style="font-size: 10px; margin: 0 50px; display: inline; margin-right: 40px;">Mikhail K.</h4>
-</h3>
+<table align="right">
+  <tr>
+    <td align="center">
+      <img src="imagens\mk.png" width="100"/><br>
+      <sub><strong>Mikhail K.</strong></sub>
+    </td>
+    <td align="center">
+      <img src="imagens\ws.png" width="100"/><br>
+      <sub><strong>Wadering Soul</strong></sub>
+    </td>
+  </tr>
+</table>

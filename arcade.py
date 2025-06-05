@@ -5,6 +5,8 @@ import psutil
 from discord import PCMVolumeTransformer
 from dotenv import load_dotenv
 from os import getenv
+import os
+import datetime
 load_dotenv()
 
 # ================== CONFIGURAÇÕES ==================
@@ -21,6 +23,23 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 playing_task = None
+
+def nightdom():
+    agora = datetime.datetime.now()
+    dom = datetime.datetime.now()
+    nome_dia = dom.strftime("%A")  # Nome do dia em inglês, ex: 'Wednesday'
+    
+    if nome_dia not in ['Sunday', 'sunday']:
+        print('no if')
+        caminho = 'arcadesons\\issunday\\1talk.mp3'
+        audi = [f"arcadesons\\issunday\\som{i}.mp3" for i in range(1, 5)]
+        #print(caminho, audi)
+        return caminho, audi
+    
+    caminho = 'arcadesons\\notsunday\\silencio.mp3'
+    audi = [f"arcadesons\\notsunday\\som{i}.mp3" for i in range(1, 5)]
+    #print(caminho, audi)
+    return caminho, audi
 
 def jukebox_esta_rodando():
     for proc in psutil.process_iter(['cmdline']):
@@ -99,6 +118,8 @@ async def conectar_e_tocar_loop(canal):
             canal_atual = await voice_client.channel.guild.fetch_channel(voice_client.channel.id)
             nomes_membros = [m.name for m in canal_atual.members]
 
+            caminho, audi = nightdom()
+
             if NOME_BOT not in nomes_membros:
                 print(f"⚠️ [loop] O bot '{NOME_BOT}' NÃO está presente no canal {canal_atual.name}")
             else:
@@ -106,11 +127,11 @@ async def conectar_e_tocar_loop(canal):
 
             # Toca silêncio
             source = discord.FFmpegPCMAudio(
-                "arcadesons/silencio.mp3",
+                caminho,
                 executable=FMPEG,
                 options='-af "acompressor=threshold=0.1:ratio=20:attack=5:release=50,highpass=f=800,lowpass=f=1500,aresample=22050"'
             )
-            source = PCMVolumeTransformer(source, volume=2)
+            source = PCMVolumeTransformer(source, volume=0.6)
             voice_client.play(source)
 
             # Checa status enquanto toca
@@ -121,8 +142,9 @@ async def conectar_e_tocar_loop(canal):
             await asyncio.sleep(10)
 
             if random.randint(1, 4) == 1:
-                audios = [f"arcadesons/som{i}.mp3" for i in range(1, 5)]
+                audios = audi
                 som_escolhido = random.choice(audios)
+                print('aaaaaaaaaaaaaaaa', som_escolhido)
                 print(f"🎵 Tocando áudio aleatório: {som_escolhido}")
                 source = discord.FFmpegPCMAudio(
                     som_escolhido,

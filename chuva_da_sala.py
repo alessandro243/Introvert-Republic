@@ -31,7 +31,9 @@ voice_client_global = None
 player_global = None  # Armazena o player atual para controlar volume sem reiniciar
 
 # Função que sorteia o intervalo diário
+
 def randomizer():
+    
     now = datetime.datetime.now()
     try:
         with open('estadosala\\hoje.txt', 'r') as f:
@@ -130,7 +132,7 @@ async def tocar_em_loop(vc, volume_inicial):
             continue
 
         # Escolhe o áudio conforme a condição e horário
-        AUDIO_FILE = 'chuva.mp3' if cond and h <= now.hour <= h2 else 'chiado.mp3'
+        AUDIO_FILE = 'chuva.mp3' if cond and h <= now.hour <= h2 else 'norain.mp3'
 
         # Se o áudio mudou em relação ao último, para o que está tocando para trocar
         if ultimo_audio != AUDIO_FILE and vc.is_playing():

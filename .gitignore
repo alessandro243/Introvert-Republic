@@ -13,6 +13,8 @@ __pycache__/
 backup.py
 test
 
+cordano.py
+
 # C extensions
 *.so
 

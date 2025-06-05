@@ -75,6 +75,14 @@ async def loop_musica(voice_client):
                 # Se não existir o arquivo, considera jukebox offline
                 onl = False
 
+            with open("estadojuke\pause.txt", 'r') as fi:
+                pausado = fi.read().strip()
+
+                if pausado == 'True':
+                    voice_client_global.pause()
+                else:
+                    voice_client_global.resume()
+
             if not onl:
                 # Se a jukebox estiver offline, apenas para o áudio (se estiver tocando)
                 if voice_client.is_playing():

@@ -37,6 +37,11 @@ timer_task = None
 cond = None
 
 async def tocar_proxima(ctx):
+
+    with open("estadojuke\pause.txt", 'w') as fi:
+        fi.write('False')
+    
+    print("⚠️ tocar_proxima foi chamada")
     
     
     global voice_client_global, current_playlist, playlist_index, paused, timer_task, vari, v, player, cond
@@ -187,11 +192,22 @@ async def on_message(message):
         if voice_client_global and voice_client_global.is_playing():
             voice_client_global.pause()
             paused = True
+
+            with open('estadojuke\pause.txt', 'w') as f:
+                f.write('True')
+
             await message.channel.send("Música pausada.")
 
     elif message.content.startswith("!resume"):
         if voice_client_global and paused:
+            with open("estadojuke\pause.txt", 'w') as fi:
+                fi.write('False')
+            
+            with open("estadojuke\\tempomusica.txt", 'r') as fi:
+                timer = int(fi.read())
+
             voice_client_global.resume()
+            asyncio.create_task(atualiza_tempo(voice_client_global, timer))
             paused = False
             await message.channel.send("Música retomada.")
 
@@ -344,10 +360,19 @@ async def volume(ctx):
 
 
 
-async def atualiza_tempo(voice_client):
-    global vari, timer_task
-    tempo_passado = 0
+async def atualiza_tempo(voice_client, tempo=None):
+    global voice_client_global, vari, timer_task
+    
+    if voice_client == None:
+        voice_client = voice_client_global
+    
+    if tempo == None:
+        tempo_passado = 0
+    else:
+        tempo_passado = tempo
+
     while voice_client.is_connected() and voice_client.is_playing():
+        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', tempo_passado, type(tempo_passado))
         tempo_passado += 1  # ou calcule o tempo real
         with open("estadojuke\\tempomusica.txt", "w") as f:
             f.write(str(tempo_passado))
@@ -368,5 +393,107 @@ async def atualiza_tempo(voice_client):
     # cria e inicia um novo timer para contar a música atual
             timer_task = asyncio.create_task(atualiza_tempo(voice_client_global))
             break
+
+@bot.command()
+async def fita123(ctx):
+    
+    if not ctx.author.voice or not ctx.guild.voice_client:
+        #await ctx.send("❌ Você ou o bot não estão em um canal de voz.")
+        return
+
+    # Verifica se estão no MESMO canal
+    if ctx.author.voice.channel != ctx.guild.voice_client.channel:
+        #await ctx.send("⚠️ Você precisa estar no mesmo canal de voz que o bot para usar esse comando.")
+        return
+    global voice_client_global, play_task, paused, cond, player
+    caminho = ''
+    arq = ''
+
+    for x in os.listdir('audios_secretos'):
+        if x == '0Rádio Libertadora (Legenda) - Carlos Marighella.mp3':
+            arq = x
+            caminho = os.path.join('audios_secretos', x)
+
+    #with open('estadojuke\\nome.txt', 'w') as file:
+        #file.write(caminho)
+
+    if not ctx.author.voice:
+        await ctx.send("Você precisa estar em um canal de voz para usar esse comando.")
+        return
+
+    with open('estadojuke\\estadosom.txt', 'r') as file:
+        volum = float(file.read())
+
+    if voice_client_global and voice_client_global.is_connected():
+        voice_client_global.stop()
+        await voice_client_global.disconnect()
+        voice_client_global = None
+
+    canal = ctx.author.voice.channel
+    voice_client_global = await canal.connect()
+    with open('estadojuke\\jukeconect.txt', 'w') as f:
+            f.write('False')
+
+    if play_task and not play_task.done():
+        play_task.cancel()
+
+    paused = False
+    cond = True
+
+    with open('estadojuke\\audiodiferente.txt', 'w') as file:
+        file.write('True')
+
+    # Função para atualizar o cronômetro
+    async def cronometro_loop():
+        tempo = 0
+        while True:
+            with open("estadojuke\\cronometro.txt", "w") as f:
+                f.write(str(tempo))
+            await asyncio.sleep(1)
+            tempo += 1
+
+    # Inicia cronômetro paralelo
+    cronometro_task = asyncio.create_task(cronometro_loop())
+
+    # Reproduz os 3 áudios iniciais
+    for i in range(3):
+        if i != 2:
+            source = FFmpegPCMAudio("tec_retro.mp3", executable=FFMPEG_PATH)
+        else:
+            source = FFmpegPCMAudio("long_beep_retro.mp3", executable=FFMPEG_PATH)
+
+        player = PCMVolumeTransformer(source, volume=volum)
+
+        if voice_client_global.is_playing():
+            voice_client_global.stop()
+
+        voice_client_global.play(player)
+
+        
+
+        while voice_client_global.is_playing():
+            await asyncio.sleep(1)
+
+    # Atualiza o estado para avisar que o áudio diferente terminou
+
+    # Começa o áudio "chiado"
+    source = FFmpegPCMAudio(caminho, executable=FFMPEG_PATH)
+    player = PCMVolumeTransformer(source, volume=volum)
+    voice_client_global.play(player)
+
+    await ctx.send(f"Tocando áudio especial: chiado.mp3")
+    with open('musics.txt', 'w') as file:
+        file.write(caminho + '\n')
+        file.write(os.path.basename(caminho) + '\n')
+
+    # Espera o chiado terminar
+    while voice_client_global.is_playing():
+        await asyncio.sleep(1)
+
+    # Para o cronômetro ao fim do áudio
+    cronometro_task.cancel()
+    with open("estadojuke\\cronometro.txt", "w") as f:
+        f.write("0")  # reseta ao fim (opcional)
+    #await ctx.message.delete()
     
 bot.run(getenv('TOKKEN_JUKEBOX'))

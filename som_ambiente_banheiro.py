@@ -47,7 +47,7 @@ async def on_voice_state_update(member, before, after):
                 print("👋 Desconectado (canal vazio)")
 
 async def loop_musica(voice_client):
-    global player, volume_atual
+    global player, volume_atual, voice_client_global
     ultima_musica = ""
 
     while voice_client.is_connected():
@@ -56,7 +56,17 @@ async def loop_musica(voice_client):
             if os.path.exists("estadojuke\\online.txt"):
                 with open("estadojuke\\online.txt", "r") as f:
                     online = f.read().strip()
+
+                with open("estadojuke\pause.txt", 'r') as fi:
+                    pausado = fi.read().strip()
+
+                if pausado == 'True':
+                    voice_client_global.pause()
+                else:
+                    voice_client_global.resume()
+
                 if online != "True":
+                    print('entrei')
                     if voice_client.is_playing():
                         voice_client.stop()
                         print("🛑 Parando reprodução (jukebox offline).")

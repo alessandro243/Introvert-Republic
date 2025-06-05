@@ -15,6 +15,7 @@ TOKEN = os.getenv('TOKKEN_TELEVISAO')
 
 FFMPEG_PATH = "C:\\Users\\Thalita\\Downloads\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
+PASTAS = ['canal 01', 'canal 05', 'canal 92', 'canal 153', 'canal 223', 'canal 450']
 ESTADO_DIR = 'estado'
 
 DESCANSO_SEGUNDOS = 60  # tempo para desligar se ficar sozinho
@@ -118,6 +119,50 @@ async def toca_canal(canal_nome, ctx=None, canal_voz=None):
     "acrusher=bits=10:mode=log"                                  # menos crusher pra manter clareza
 )  
     
+    if canal_nome == 'canal 05':
+        bot.estado_tocado = True
+        bot.canal_atual = canal_nome
+        salvar_ultima_pasta(canal_nome)
+
+        arquivos = [f for f in os.listdir(canal_nome) if f.endswith('.mp3')]
+        arquivos.sort()
+
+        ultimo = carregar_ultimo_arquivo(canal_nome)
+
+        # Loop para tocar arquivos em sequência e repetir depois que acabar tudo
+        while bot.estado_tocado and bot.canal_atual == canal_nome:
+            horario = canal06()
+            if horario == 1:
+                print('no if', arquivos[0])
+                caminho = os.path.join(canal_nome, arquivos[0])
+            else:
+                print('no else', arquivos[1])
+                caminho = os.path.join(canal_nome, arquivos[1])
+
+            source = discord.FFmpegPCMAudio(
+            caminho,
+            executable=FFMPEG_PATH,
+            options=f'-af "{filtro_tv}"'
+    )
+            player = PCMVolumeTransformer(source, 1)
+            with open("estado\\estadomute.txt", "r") as file:
+                mut = file.read().strip() == "True"
+
+                if not mut:
+                    with open("estado\\estadovolume.txt", "r") as file:
+                        player.volume = float(file.read())
+                else:
+                    player.volume = 0
+            
+            bot.voice_client.play(
+                player
+)
+            while bot.voice_client.is_playing():
+                await asyncio.sleep(1)
+                # Se a TV foi desligada ou canal mudou, para de tocar
+                if not bot.estado_tocado or bot.canal_atual != canal_nome:
+                    bot.voice_client.stop()
+                    return
 
     else:
         bot.estado_tocado = True
@@ -280,23 +325,71 @@ async def mute(ctx):
     print(player.volume)
 
 
-
 @bot.command()
 async def volume(ctx):
-    if not ctx.author.voice or not ctx.guild.voice_client:
-        #await ctx.send("❌ Você ou o bot não estão em um canal de voz.")
+    global player, ligado
+
+    # IDs dos canais de texto permitidos para comando
+    canais_autorizados = {
+        1365765011464523910   # canal 4
+    }
+
+    if ctx.channel.id not in canais_autorizados:
+        #await ctx.send("⚠️ Este canal não está autorizado a ajustar o volume.")
         return
 
-    # Verifica se estão no MESMO canal
-    if ctx.author.voice.channel != ctx.guild.voice_client.channel:
-        #await ctx.send("⚠️ Você precisa estar no mesmo canal de voz que o bot para usar esse comando.")
+    # Verifica se o autor está em canal de voz
+    if not ctx.author.voice:
+        #await ctx.send("⚠️ Você precisa estar em algum canal de voz.")
         return
+
+    # Verifica se o bot está tocando algo
     if not ligado:
+        #await ctx.send("⚠️ A jukebox está desligada.")
         return
-    await ctx.send("Monitorando tecla '- e +' para controle de volume...")
 
-    thread = threading.Thread(target=escutar_teclas, daemon=True)
-    thread.start()
+    if not player or not isinstance(player, PCMVolumeTransformer):
+        await ctx.send("⚠️ O player atual não suporta ajuste de volume.")
+        return
+
+    await ctx.send("🎛️ Modo de ajuste de volume ativado. Envie mensagens com + para aumentar, - para diminuir, ou enter para sair.")
+
+    def check(m):
+        return (
+            m.author == ctx.author and
+            m.channel.id == ctx.channel.id and
+            ('+' in m.content or '-' in m.content or m.content.lower() == 'enter')
+        )
+
+    while True:
+        try:
+            msg = await bot.wait_for('message', timeout=60.0, check=check)
+
+            if msg.content.lower() == 'enter':
+                await ctx.send(f"✅ Ajuste finalizado com volume em {int(player.volume * 100)}%")
+                break
+
+            mais = msg.content.count('+')
+            menos = msg.content.count('-')
+            ajuste = (mais - menos) * 0.05  # Ajusta 5% por + ou -
+
+            player.volume = min(1.0, max(0.0, player.volume + ajuste))
+
+            with open("estado\\estadomute.txt", "r", encoding="utf-8") as file:
+                estadomut = file.read().strip() == 'True'
+
+            if estadomut:
+                with open("estado\\estadomute.txt", "w", encoding="utf-8") as file:
+                    file.write("False")
+
+            with open("estado\\estadovolume.txt", "w", encoding="utf-8") as file:
+                file.write(str(player.volume))
+
+            await ctx.send(f"🔊 Volume ajustado para {int(player.volume * 100)}%")
+
+        except asyncio.TimeoutError:
+            await ctx.send("⏳ Tempo esgotado. Saindo do modo de ajuste de volume.")
+            break
 
 @bot.command()
 async def ligar(ctx):
@@ -475,5 +568,13 @@ async def contar_descanso():
 async def on_ready():
     setup_arquivos_estado()
     print(f"Bot conectado como {bot.user}")
+
+def canal06():
+    agora = datetime.datetime.now()
+    
+    if agora.hour == 8 and 2 <= agora.minute <= 3:
+        return 1
+    
+    return 0
 
 bot.run(TOKEN)

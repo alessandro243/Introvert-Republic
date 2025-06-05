@@ -59,6 +59,14 @@ async def loop_musica(voice_client):
                 with open("estadojuke/online.txt", "r") as f:
                     status = f.read().strip().lower()
                     jukebox_ativa = status == "true"
+            
+            with open("estadojuke\pause.txt", 'r') as fi:
+                pausado = fi.read().strip()
+
+                if pausado == 'True':
+                    voice_client_global.pause()
+                else:
+                    voice_client_global.resume()
 
             if not jukebox_ativa:
                 if voice_client.is_playing():
