@@ -4,12 +4,12 @@
 
 Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, sob as luzes coloridas, nós aproveitamos o anonimato e a vibe da leve chuva que cai lá fora, ao som de diversas playlists. Você pode escolher um lugar tranquilo para conversar descontraidamente, então escolha uma mesa no bar e ligue a jukebox ou vasculhe cada segredo em nossa república.
 
-<p align="center" style="font-size: 4px; font-weight: bold;">Demo do servidor:</p>
+<p align="center">Demo do servidor:</p>
 
 <p  align="center"><a href="https://www.youtube.com/watch?v=0YLoEgbq0yo" target="_blank">
   <img src="gifdemo.gif" width="600" style="display: block; margin: auto;" /></a></p>
-</a>
-<p align="center" style="font-size: 8px;">Clique para ver o conteúdo completo.</p>
+
+<p align="center">Clique para ver o conteúdo completo.</p>
 
 Aqui dispensamos os simples canais e construímos cômodos vivos que conversam entre si. Seis cômodos compõem o nosso servidor, sendo eles: a entrada, o corredor, o bar, a escadaria, a sala principal e o banheiro, cada um implementando características particulares. Por enquanto, contamos com 13 bots responsáveis por criar essa atmosfera e integrar cada usuário ao ambiente. Aqui temos o áudio como cenário e personagem. Usamos o Discord como um verdadeiro motor de games. Aqui você vai conhecê-los:
 
@@ -144,7 +144,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       O coração sonoro do nosso lar. Do bar, esse é o bot responsável por definir qual será a música tocada em toda a república. Ele é capaz de construir o tecido sonoro de todo o ambiente por meio de arquivos de texto. Através desses arquivos, transcreve as informações necessárias para que os bots de som ambiente de todos os cômodos possam reproduzir o mesmo áudio, respeitando as especificidades de cada um.
       Você pode escolher uma playlist através do comando play[nome da playlist]. Ele tocará músicas do ritmo escolhido aleatoriamente, e você poderá controlar o som com os comandos !volume, !stop, !pause, !resume e !skip. Além das playlists, também é possível encontrar, pelos cômodos do servidor, fitas secretas que podem ser reproduzidas na jukebox com o comando !fita[código da fita].
     </td>
-    <td><img src="imagens\barcut.png" width="300"></td>
+    <td><img src="imagens\barcut.png" width="500"></td>
   </tr>
 </table>
 
