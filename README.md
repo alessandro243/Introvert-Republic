@@ -6,7 +6,7 @@ Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, so
 
 <p style="font-size: 15px"><b>Demo do servidor:</b></p>
 
-<a align="center" href="https://www.youtube.com/watch?v=0YLoEgbq0yo" target="_blank">
+<div  align="center"><a href="https://www.youtube.com/watch?v=0YLoEgbq0yo" target="_blank"></a></div>
   <img src="gifdemo.gif" width="600" style="display: block; margin: auto;" />
 </a>
 <p style="font-size: 10px">Clique para ver o conteúdo completo.</p>
