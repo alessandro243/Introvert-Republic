@@ -144,7 +144,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       O coração sonoro do nosso lar. Do bar, esse é o bot responsável por definir qual será a música tocada em toda a república. Ele é capaz de construir o tecido sonoro de todo o ambiente por meio de arquivos de texto. Através desses arquivos, transcreve as informações necessárias para que os bots de som ambiente de todos os cômodos possam reproduzir o mesmo áudio, respeitando as especificidades de cada um.
       Você pode escolher uma playlist através do comando play[nome da playlist]. Ele tocará músicas do ritmo escolhido aleatoriamente, e você poderá controlar o som com os comandos !volume, !stop, !pause, !resume e !skip. Além das playlists, também é possível encontrar, pelos cômodos do servidor, fitas secretas que podem ser reproduzidas na jukebox com o comando !fita[código da fita].
     </td>
-    <td><img src="imagens\barcut.png" width="500"></td>
+    <td><img src="imagens\barcut.png" width="1000"></td>
   </tr>
 </table>
 
