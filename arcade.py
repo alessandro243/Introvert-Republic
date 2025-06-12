@@ -29,7 +29,7 @@ def nightdom():
     dom = datetime.datetime.now()
     nome_dia = dom.strftime("%A")  # Nome do dia em inglês, ex: 'Wednesday'
     
-    if nome_dia not in ['Sunday', 'sunday']:
+    if nome_dia in ['Sunday', 'sunday'] and 18 <= agora.hour <= 23:
         print('no if')
         caminho = 'arcadesons\\issunday\\1talk.mp3'
         audi = [f"arcadesons\\issunday\\som{i}.mp3" for i in range(1, 5)]

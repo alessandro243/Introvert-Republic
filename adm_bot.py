@@ -65,7 +65,7 @@ async def on_message(message):
         if count % 20 == 0 or count == 1:
             embed = discord.Embed(
                 title="🌆 Corredor",
-                description=f"{message.author.name}, perceba ao fundo... de longe você ouve a música que vem do bar enquanto está no corredor banhado pelo neon vermelho.",
+                description=f"{message.author.name}, Perceba ao fundo... de longe você ouve a música que vem do bar enquanto está no corredor banhado pelo neon vermelho.",
                 color=0xFF3C3C
             )
             embed.set_image(url="https://i.pinimg.com/736x/53/4e/0b/534e0b642a92c6bd5fe2a12929d899c8.jpg")
@@ -100,8 +100,8 @@ async def on_message(message):
         count = mensagens_por_usuario[(user_id, CANAL_TEXTO_ESCADARIA)]
         if count % 20 == 0 or count == 1:
             embed = discord.Embed(
-                title="🌧️ Exterior",
-                description=f"{message.author.name}, ouça o som da noite... daqui das escadas você pode parar para apreciar a chuva e pássaros cantando.",
+                title=": 🪜 Escadaria",
+                description=f"{message.author.name}, ficar sentado na escada pode ser relaxante, mas com música a experiência é inexplicável.",
                 color=0x00BFFF
             )
             embed.set_image(url="https://i.pinimg.com/736x/17/06/23/170623e163253b2d45666438ffc4e034.jpg")
@@ -135,8 +135,8 @@ async def on_message(message):
         count = mensagens_por_usuario[(user_id, CANAL_TEXTO_SALA)]
         if count % 20 == 0 or count == 1:
             embed = discord.Embed(
-                title=" Sala pricipal",
-                description=f"{message.author.name}, Ligue a TV, talvez para ver um dos canais ou para ter um som de fundo diferente enquanto conversa.",
+                title="📺 Sala pricipal",
+                description=f"{message.author.name}, ligue a TV, talvez para ver um dos canais ou para ter um som de fundo diferente enquanto conversa.",
                 color=0x00BFFF
             )
             embed.set_image(url="https://i.pinimg.com/736x/f7/88/eb/f788eb666869d349cc04690acdd6307d.jpg")
