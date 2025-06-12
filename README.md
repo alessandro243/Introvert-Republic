@@ -143,7 +143,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       O coração sonoro do nosso lar. Do bar, esse é o bot responsável por definir qual será a música tocada em toda a república. Ele é capaz de construir o tecido sonoro de todo o ambiente por meio de arquivos de texto. Através desses arquivos, transcreve as informações necessárias para que os bots de som ambiente de todos os cômodos possam reproduzir o mesmo áudio, respeitando as especificidades de cada um.
       Você pode escolher uma playlist através do comando play[nome da playlist]. Ele tocará músicas do ritmo escolhido aleatoriamente, e você poderá controlar o som com os comandos !volume, !stop, !pause, !resume e !skip. Além das playlists, também é possível encontrar, pelos cômodos do servidor, fitas secretas que podem ser reproduzidas na jukebox com o comando !fita[código da fita].
     </td>
-    <td><img src="imagens\barcut.png" width="300"></td>
+    <td><img src="imagens\barcut.png" width="1000"></td>
   </tr>
 </table>
 
@@ -167,7 +167,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       A sala principal é uma área mais reservada, de diversão alternativa e à parte dos outros cômodos. Também é a casa do nosso pet Mingau e de outros dois bots: o de som ambiente da varanda e o nosso bot de televisão. Através dos comandos !fechar e !abrir, você consegue gerir o volume vindo do bar e da jukebox, pois o bot de som ambiente da sala, assim como os demais, simula um som externo que invade o ambiente por meio de arquivos .txt. Esses arquivos também permitem que ele detecte se a jukebox está tocando e reproduza a música com a mesma cronometragem.
       Assim, você pode fechar a porta da sala principal para ouvir melhor a noite ou a nossa TV.
     </td>
-    <td><img src="imagens\salacut.png" width="500"></td>
+    <td><img src="imagens\salacut.png" width="1000"></td>
   </tr>
 </table>
 
@@ -201,7 +201,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       <b>Exterior: Som da noite.</b><br>
       Saiba que você sempre pode descansar de um dia cansativo ou socializar sem compromisso com outras pessoas desconhecidas. Aqui, você vem quando está cansado da vibe introspectiva da república ou simplesmente quer pegar um ar fresco e ver a rua molhada refletindo as luzes dos postes. Faz um pouco de frio. Do outro lado da rua, há o muro de um campinho de futebol, com árvores na calçada e, às vezes, alguns cavalos. Mas, em geral, a rua não é muito movimentada. Você pode aproveitar a brisa gelada da chuva, conversando sentado nos degraus que levam da porta de vidro do corredor para a rua. Aqui, você ouve sons ao fundo: pássaros, buzinas e outros sons da madrugada.
     </td>
-    <td><img src="imagens\corcut.png" width="500"></td>
+    <td><img src="imagens\corcut.png" width="1000"></td>
   </tr>
 </table>
 
@@ -246,7 +246,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
       <b>Banheiro: Calmaria e solidão.</b><br>
       Esse é o lugar menos movimentado; daqui dá para ouvir um som abafado que vem da jukebox. Aqui é o canto mais reservado da república, então, caso queira conversar mais discretamente ou usar alguma substância alternativa em um lugar mais calmo, aproveite. Além de ser calmo, é escuro e azulado — o tom azul reflete no azulejo branco e nas pichações das paredes e portas. Você pode usar os comandos !fechar e !abrir para controlar o volume do som que vem do bar. O bot desse cômodo reproduz o som respeitando o timer da jukebox e de acordo com suas especificidades.
     </td>
-    <td><img src="imagens\bacut.png" width="500"></td>
+    <td><img src="imagens\bacut.png" width="1000"></td>
   </tr>
 </table>
 
