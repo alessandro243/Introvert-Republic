@@ -15,7 +15,7 @@ Aqui dispensamos os simples canais e construímos cômodos vivos que conversam e
 <table>
   <tr>
     <td align="center"><a href = #adm>
-      <img src="imagens\Milka_circle.png" width="150"/><br></a>
+      <img src="imagens\Milka_circle3.png" width="150"/><br></a>
       <sub><strong>Milka</strong></sub>
     </td>
     <td align="center"><a href = #mingau>
