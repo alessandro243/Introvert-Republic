@@ -294,6 +294,10 @@ Implementar um jogo real e autoral ao nosso arcade, refinar e atualizar nossos b
         <img src="imagens\oc.png" width="100"/><br>
         <sub><strong>Otaco</strong></sub>
       </td>
+      <td align="center">
+        <img src="imagens\th.png" width="100"/><br>
+        <sub><strong>Thalita</strong></sub>
+      </td>
     </tr>
   </table>
 
@@ -306,5 +310,6 @@ Implementar um jogo real e autoral ao nosso arcade, refinar e atualizar nossos b
 
 <p align="center" style="font-size: small; margin-top: 10px;">
   Este projeto está protegido por direitos autorais.<br>
+  Copyright © 2025, todos os direitos reservados.<br>
   Veja <a href="LICENSE.md">LICENSE.md</a> para mais detalhes.
 </p>
