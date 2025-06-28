@@ -283,20 +283,20 @@ Implementar um jogo real e autoral ao nosso arcade, refinar e atualizar nossos b
   <table style="display: inline-table;">
     <tr>
       <td align="center">
-        <img src="imagens/mk.png" width="100"/><br>
-        <sub><strong>Mikhail K.</strong></sub>
+        <img src="imagens/th.png" width="100"/><br>
+        <sub><strong>Thalita</strong></sub>
       </td>
       <td align="center">
-        <img src="imagens/ws.png" width="100"/><br>
-        <sub><strong>Wandering Soul</strong></sub>
-      </td>
-      <td align="center">
-        <img src="imagens\oc.png" width="100"/><br>
+        <img src="imagens/oc.png" width="100"/><br>
         <sub><strong>Otaco</strong></sub>
       </td>
       <td align="center">
-        <img src="imagens\th.png" width="100"/><br>
-        <sub><strong>Thalita</strong></sub>
+        <img src="imagens\mk.png" width="100"/><br>
+        <sub><strong>Mikhail K.</strong></sub>
+      </td>
+      <td align="center">
+        <img src="imagens\ws.png" width="100"/><br>
+        <sub><strong>Wandering Soul</strong></sub>
       </td>
     </tr>
   </table>
