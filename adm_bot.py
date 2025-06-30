@@ -3,15 +3,13 @@ from discord.ext import commands
 from collections import defaultdict
 from dotenv import load_dotenv
 from os import getenv
-from db_files.milka_db_utils import insertUser, verifyUser, insertPendent, deleteUser, selectMilka, updtMilka, insertAsked, verifyaskeds, truncTable
+from db_files.milka_db_utils import insertUser, verifyUser, insertPendent, deleteUser, selectMilka, updtMilka, insertAsked, verifyaskeds, truncTable, verifyterms, selectTalks
 import os
 import asyncio
 import random
 import datetime
-from milka_docs.falas import falas_pendent, fala_padrao, fala_bots
+from milka_docs.falas import falas_pendent, fala_padrao, fala_bots, falas_chat_comum
 import mysql.connector
-
-
 load_dotenv()
 
 intents = discord.Intents.default()
@@ -20,45 +18,31 @@ intents.voice_states = True
 intents.guilds = True
 intents.members = True
 intents.presences = True
+bot = commands.Bot(command_prefix="!", intents=intents)
 images2 = ['imagens/Milka_3.png']
-extress = 0
+
 ii = 0
 i5 = 0
 
-bot = commands.Bot(command_prefix="!", intents=intents)
-
 CANALCADASTRO = 1383461556993527980
-
 ROLEINIT = 1383461909646278656
 MEMBER_ROLE = 1386002510736658432
-
-# IDs do servidor e canais
 ID_SERVIDOR = 1354266715785134160
-
 CANAL_TEXTO_SALA = 1354275870956851384
 CANAL_TELEVISAO = 1365765011464523910
-
 CANAL_TEXTO_CORREDOR = 1354333089781780490
 CANAL_AUDIO_CORREDOR = 1376065935235874948
-
 CANAL_TEXTO_ESCADARIA = 1354316192042455080
 CANAL_AUDIO_ESCADARIA = 1377161141469315132
-
 CANAL_TEXTO_EXTERIOR = 1354333283483390032
 CANAL_AUDIO_EXTERIOR = 1366035560249954315
-
 CANAL_TEXTO_BANHEIRO = 1354316992764711012
 CANAL_AUDIO_BANHEIRO = 1376116149472727111
-
 CANAL_TEXTO_BALCAO = 1354312727388225617
 CANAL_TEXTO_MESA_1 = 1354312920569221211
 CANAL_TEXTO_MESA_2 = 1354313052060909598
 CANAL_TEXTO_MESA_3 = 1354313099640963092
 CANAL_AUDIO_JUKEBOX = 1354311386100011078
-
-apresentacoes = ['Não perambule por aí sem antes falar comigo, novato!', 'Veio se juntar à república? Eu já vi você por aí. Me diga...', 'Lá vamos nós de novo, temo que esse lugar fique mais cheio do que eu gostaria, mas ainda precisamos de mais membros.']
-apresentacoes2 = ['Ah... é você, você ficou de me passar algumas informações.', 'Resolveu aparecer pra fazer o registro? Eu tava te procurando.']
-images = ['imagens/Milka_1.png']
 
 # Contador de mensagens por usuário e por canal de texto
 mensagens_por_usuario = defaultdict(int)
@@ -82,12 +66,7 @@ async def isOn(member, canal):
         lista = [x.name for x in guild.members]
         if member.name not in lista:
             await canal.delete()
-            print(f"{member.name} saiu do server!")
-        
             await dellDesk("on_server")
-        
-        print('tô vivo!')
-        
         await asyncio.sleep(10)  # Diminui a frequência pra evitar ser rate-limited
 
 @bot.command()
@@ -95,7 +74,6 @@ async def found(ctx):
     canal_user = ctx.channel.id
     variavel = ''
     bots_on_channel = []
-
     bots = {
         'milka': 'milka_docs/ultimocomodo.txt',
         'mingau': 'mingau_docs/ultimocomodo.txt',
@@ -133,7 +111,6 @@ async def found(ctx):
         variavel += f'{nome_bot} está no cômodo, em {canal_nome}\n'
 
     await ctx.reply(variavel)
-    
 
 async def verif():
     guild = bot.get_guild(1354266715785134160)  # Use o ID fixo do servidor
@@ -142,11 +119,8 @@ async def verif():
         return
 
     membros = guild.members
-
-    
     arquivo = await verifyUser('users') # Tira o '\n'
     arquivo2 = await verifyUser('pendents')
-
     ids_registrados = {linha[0] for linha in arquivo}
     ids_pendentes = {linha[0] for linha in arquivo2}
 
@@ -189,7 +163,6 @@ async def faco(x, y, a):
         comodo_atual = comodo[0]
 
         if comodo_antigo != comodo_atual:
-        
             canal = bot.get_channel(int(comodo_antigo))
             await canal.send(f"Milka saiu de {canal.name}")
             print(f"Milka saiu de {canal.name}")
@@ -250,7 +223,6 @@ async def calltask():
         
         if local_choiced == localMilka and bot_choiced != '' and local_choiced != ''and rando\
             and agora.hour in [hora_milka_coversation, hora_milka_coversation2] and agora.minute in [minute_milka_conversation, minute_milka_conversation2]:
-            print("Entrei")
             canal = bot.get_channel(int(localMilka))
             await canal.send(fala_bots.get(bot.get_user(int(bot_choiced)).display_name)()[0])
             await asyncio.sleep(60)
@@ -266,7 +238,6 @@ async def calltask():
         returno = await selectMilka("HOJE")
         days = [day[0] for day in returno]
         content = days[0]
-        print(content)
 
         try:
             dia_executado = int(content)
@@ -312,19 +283,28 @@ async def escrevoHumor(x):
     await updtMilka("HUMOR", "NAME", x, "Milka")
 
 async def vejoHumor():
+    estreseReturn = await selectMilka("HUMOR")
+    estrese = [x[0] for x in estreseReturn][0]
     retorno = await selectMilka("HUMOR")
     dados = [x[0] for x in retorno]
     humor = dados[0]
 
     return humor
 
-
 async def func(member, pedente=False):
     global extress    
     i = 0
     i2 = 0
     i3 = 0
+    apresentacoesReturn = await selectTalks(cond="init")
+    apresentacoes = [x[0] for x in apresentacoesReturn]
+    apresentacoesReturn2 = await selectTalks(cond="init2")
+    apresentacoes2 = [x[0] for x in apresentacoesReturn2]
+    #apresentacoes2 = ['Ah... é você, você ficou de me passar algumas informações.', 'Resolveu aparecer pra fazer o registro? Eu tava te procurando.']
+    images = ['imagens/Milka_1.png']
 
+    estreseReturn = await selectMilka("HUMOR")
+    estrese = [x[0] for x in estreseReturn][0]
     pends = await verifyUser('pendents')
     arquivo2 = [pendente[0] for pendente in pends]
 
@@ -343,14 +323,27 @@ async def func(member, pedente=False):
     
     role_inicial = member.guild.get_role(ROLEINIT)
 
-    convidado = ['não conheço', 'não vi', 'esqueci', 'desconhecido', 'não reconheci', 'não lembro', 'não conhecia', 'não deu pra ver', ' não deu tempo de ver','me convidaram', 'me convidou', 'deram um convite', 'um convite de', 'um amigo', 'uma amiga', 'o convite', 'um convite']
-    validlist = ['sou', 'sou sim', 'yes', 'é', 'é sim', 'e n', 'sim', 'isso', 'isso mesmo', 'no', 'not', 'não', 's', 'n', 'não é', 'é não','nao', 'é nao']
-    forget = ['não conheço', 'não vi', 'esqueci', 'desconhecido', 'não reconheci', 'não me lembro', 'não lembro', 'não conhecia', 'não deu pra ver', ' não deu tempo de ver', 'não consegui ver']
+    validReturns = await verifyterms()
+    validlist = [term[0] for term in validReturns]
+    forgetReturns = await verifyterms("unk")
+    forget = [forg[0] for forg in forgetReturns]
+    envtReturns = await verifyterms("env")
+    envtme = [envt[0] for envt in envtReturns]
+    convidado = forget + envtme
+
+    c0Return = await selectTalks(cond="c0")
+    c0 = [x[0] for x in c0Return]
+    c1Return = await selectTalks(cond="c1")
+    c1 = [x[0] for x in c1Return]
+    c2Return = await selectTalks(cond="c2")
+    c2 = [x[0] for x in c2Return]
+    
     perguntas = [
-            f"Aqui diz que seu nome é {member.display_name}? diga sim, caso sejá e não, caso não.",
-            f"Como você ficou sabendo da república?",
-            f"Entre esses qual você diria que mais gosta?\n[1] jpop\n[2] rock\n[3] pop\n[4] oldrock\n[5] vinil\n[6] alternative\n[7] mpb\n[8] lofi",
-    ]
+    c0[0].format(member_display_name=member.display_name),
+    c1[0].format(member_display_name=member.display_name),
+    c2[0].format(member_display_name=member.display_name),
+]
+    
     task1 = asyncio.create_task(isOn(member, canal))
     task1.set_name("on_server")
     if role_inicial:
@@ -377,18 +370,22 @@ async def func(member, pedente=False):
             if not x:
                 return '-'
             await imge()
-            print(member.status)
             return await canal.send(perguntas[i])
         
         async def milk(name, eu, st):
+            envter = await selectTalks(cond='cnvm')
+            envte = [en[0] for en in envter]
+            unkr = await selectTalks(cond='unk')
+            unk = [en[0] for en in unkr]
+
             if eu.lower() == 'milka':
-                await canal.send("Eu? eu não te convidei... O Cordano deve ter posto alguém pra te vigiar.")
+                await canal.send(envte[0])
                 await asyncio.sleep(1)
                 eu = f'{name} alegou que foi convidado por min.'
                 return eu
             
             elif any(x in eu.lower() for x in forget):
-                await canal.send("Então você não consegue me dizer, entendi...")
+                await canal.send(unk[0])
                 await asyncio.sleep(1)
                 eu = f'{name} não lembra ou não sabe quem lhe deu o convite, suspeito! Fiquem de olho!'
                 return eu
@@ -397,8 +394,20 @@ async def func(member, pedente=False):
                 st = f' convidou.'
                 eu = eu + st
                 return eu
+        estreseReturn = await selectMilka("HUMOR")
+        estrese = [x[0] for x in estreseReturn][0]
+        estreseReturn = await selectMilka("HUMOR")
+        extress = [x[0] for x in estreseReturn][0]
 
         async def ender(nome, convite, estilo):
+            estreseReturn = await selectMilka("CTRL_HUMOR")
+            extress = [x[0] for x in estreseReturn][0]
+            end0R = await selectTalks(0, 'end0')
+            ends0 = [x[0] for x in end0R]
+            end1R = await selectTalks(1, 'end1')
+            ends1 = [x[0] for x in end1R]
+            end2R = await selectTalks(2, 'end2')
+            ends2 = [x[0] for x in end2R]
             
             if extress < 3:
                 await escrevoHumor(0)
@@ -411,86 +420,66 @@ async def func(member, pedente=False):
 
             extress_ = await vejoHumor()
 
-            if extress_ == 0:
-                await imge()
-                await canal.send('Isso vai ficar ótimo na jukebox')
-                await canal.send(f'Então é isso, {nome}, você é oficialmente um membro da república')
-                await asyncio.sleep(1)
-                await canal.send(f'Pegue esse cd de {estilo}, você pode usa-lo na jukebox.')
-                await asyncio.sleep(1)
-                await canal.send(f'O bar é só para membros, exceto nos domingos, quando Cordano abre para o público.')
-                await asyncio.sleep(1)
-                await canal.send(f'Só de pensar naquela falação já fico estreçada, enfim, bom ter você aqui.')
-                await asyncio.sleep(1)
-                print("antes", extress)
+            async def endier(lista):
+                for x in lista:
+                    
+                    if "{nome}" in x:
+                       x = x.format(nome=primeiro_nome)
+                    elif "{estilo}" in x:
+                       x = x.format(estilo=estilo)
 
+                    await canal.send(x)
+                    await asyncio.sleep(1)
+
+            if extress_ == 0:
+                await endier(ends0)
+                
             elif extress_ == 1:
-                await imge()
-                await canal.send('Entendi...')
-                await canal.send(f'Terminamos aqui. Você pode ir, leva esse cd com vc.')
-                await asyncio.sleep(1)
-                await canal.send(f'Se precisar de alguma coisa fale com Cordano no bar')
-                await asyncio.sleep(1)
-                await canal.send(f'Ou veja se o Cordano tá por aí. toma, leva esse cd.')
-                await asyncio.sleep(1)
-                print("antes", extress)
+                await endier(ends1)
 
             elif extress_ == 2:
-                await imge()
-                await canal.send('Só podia ser...')
-                await canal.send(f'Acabamos')
-                await asyncio.sleep(1)
-                await canal.send(f'Leva esse cd e encontre um lugar pra vc. Pra min já deu')
-                await asyncio.sleep(1)
-                await canal.send(f'Eu preciso de uma bebida... CORDANO!!!')
-                await asyncio.sleep(1)
-                print("antes", extress)
-
-        respostas = []
+                await endier(ends2)
         
-        with open('milka_docs/ids.txt', 'r') as file:
-            arquivo = [linha.strip() for linha in file.readlines() if linha.strip()]
+        retR = await selectTalks(cond="ret")
+        rets = [r[0] for r in retR]
+        user = await verifyUser("users", member.id)
             
-            user = await verifyUser("users", member.id)
-            if len(user) > 0 and int(member.id) == int(user[0][0]):
-                print("Averificação foi um sucesso!")
-                try:
-                    await canal.send(f"Eu já vi você por aqui antes... {member.display_name}, você voltou...")
-                    await asyncio.sleep(1) 
-                    await canal.send("Esqueceu alguma coisa?")
-                    await asyncio.sleep(1) 
-                    await canal.send("Seu espaço no bar ainda está guardado.")
-                    await canal.send("Agora você seguirá para a república, pronto?")
-                    alguem2 = await bot.wait_for('message', check=lambda m: m.channel == canal, timeout=20)
+        if len(user) > 0 and int(member.id) == int(user[0][0]):
+            try:
+                await canal.send(rets[0].format(member_display_name=member.display_name))
+                await asyncio.sleep(1) 
+                await canal.send(rets[1].format(member_display_name=member.display_name))
+                await asyncio.sleep(1) 
+                await canal.send(rets[2].format(member_display_name=member.display_name))
+                await canal.send(rets[3].format(member_display_name=member.display_name))
+                alguem2 = await bot.wait_for('message', check=lambda m: m.channel == canal, timeout=20)
 
-                    if alguem2.content:
+                if alguem2.content:
                     
-                        role_membro = member.guild.get_role(MEMBER_ROLE)
-                        await member.remove_roles(role_inicial)
-                        if role_membro:
-                            await member.add_roles(role_membro)
-                
-                        await canal.delete()
-                        await dellDesk('on_server')
-
-                        extress -= 1
-                        if extress < 0:
-                            extress = 0
-                        print(extress)
-                        return
-                
-                except asyncio.TimeoutError:
                     role_membro = member.guild.get_role(MEMBER_ROLE)
                     await member.remove_roles(role_inicial)
                     if role_membro:
                         await member.add_roles(role_membro)
+                
+                    await canal.delete()
+                    await dellDesk('on_server')
+                    estreseReturn = await selectMilka("CTRL_HUMOR")
+                    extress = [x[0] for x in estreseReturn][0] - 1
+                    if extress < 0:
+                        extress = 0
+                    await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
+                    return
+                
+            except asyncio.TimeoutError:
+                role_membro = member.guild.get_role(MEMBER_ROLE)
+                await member.remove_roles(role_inicial)
+                if role_membro:
+                    await member.add_roles(role_membro)
 
             # Apagar o canal de cadastro
-                    await canal.delete()
-                    print(respostas)
-                    await verifico_id_lista(str(member.id), 'milka_docs/ids.txt')
-                    await dellDesk("on_server")
-                    print(extress)
+                await canal.delete()
+                await verifico_id_lista(str(member.id), 'milka_docs/ids.txt')
+                await dellDesk("on_server")
 
         def check(m):
             return m.author == member and m.channel == canal
@@ -507,17 +496,20 @@ async def func(member, pedente=False):
                     continue
 
                 if i == 0 and msg.content.lower() in validlist:
+                    positiveReturn = await verifyterms("pos")
+                    positiva = [x[0] for x in positiveReturn]
+                    negativeReturn = await verifyterms("neg")
+                    negativa = [x[0] for x in negativeReturn]
 
-                    if msg.content.lower() in ['sou', 'sou sim', 's', 'sim', 'é', 'é sim', 'isso', 'isso mesmo', 'e s']:
+                    if msg.content.lower() in positiva:
                         await canal.send('...')
                         i += 1
                         x = True
-                        respostas.append(name)
                         continue
 
-                    elif msg.content.lower() in ['no', 'not','não', 'n', 'não é','e n', 'nao', 'é n', 'é nao']:
+                    elif msg.content.lower() in negativa:
                         if i2 < 1:
-                            await canal.send('Não?')
+                            await canal.send(c0[1])
                             i2 += 1
                             x = False
                             await asyncio.sleep(1)
@@ -526,57 +518,86 @@ async def func(member, pedente=False):
                         elif i2 == 1:
                             i2 += 1
                             await imge()
-                            await canal.send('Escuta aqui, Eu não gosto que mintam pra min! Você quer que tenhamos problemas aqui?')
+                            await canal.send(c0[2])
                             await asyncio.sleep(2)
-                            await canal.send(f'Você é ou não o {primeiro_nome}?')
+                            await canal.send(c0[3].format(primeiro_nome=primeiro_nome))
                             x = False
-                            extress += 1
+                            estreseReturn = await selectMilka("CTRL_HUMOR")
+                            extress = [x[0] for x in estreseReturn][0] + 1
+                            
+                            if extress > 7:
+                                extress = 7
+
+                            await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
                             await asyncio.sleep(1)
                             continue
 
                         else:
                             await imge()
-                            await canal.send(f'Tá bom, engraçadinho, nós dois sabemos que seu nome é {member.display_name}!')
+                            await canal.send(c0[4].format(member_display_name=member.display_name))
                             await asyncio.sleep(2)
-                            await canal.send('Você quer que eu mencione seu endereço também? O de toda a sua família? Eu sei quantos dentes seu avozinho perdeu esse ano!')
+                            await canal.send(c0[5])
                             await asyncio.sleep(2)
-                            await canal.send(f'Francamente... Vai ser {member.display_name}!')
+                            await canal.send(c0[6].format(member_display_name=member.display_name))
                             resp = member.display_name
                             i2 = 0
                             i += 1
                             x = True
-                            extress += 2
-                            respostas.append(name)
+                            estreseReturn = await selectMilka("CTRL_HUMOR")
+                            extress = [x[0] for x in estreseReturn][0] + 2
+                            
+                            if extress > 7:
+                                extress = 7
+
+                            await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
                             continue
 
                 elif i == 0 and msg.content.lower() not in validlist:
                     if i3 < 1:
-                        await canal.send(f'O que?... Presta ateção!')
+                        await canal.send(c0[7])
                         await asyncio.sleep(1)
-                        await canal.send(f'me fala, o teu primeiro nome é {primeiro_nome}?')
+                        await canal.send(c0[8].format(primeiro_nome=primeiro_nome))
                         i3 += 1
                         x = False
-                        extress += 1
+                        estreseReturn = await selectMilka("CTRL_HUMOR")
+                        extress = [x[0] for x in estreseReturn][0] + 1
+                            
+                        if extress > 7:
+                            extress = 7
+
+                        await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
                         continue
 
                     elif i3 == 1:
                         await imge()
-                        await canal.send('Um dia eu vou me cansar disso...')
+                        await canal.send(c0[9])
                         await asyncio.sleep(2)
-                        await canal.send(f'É {primeiro_nome} ou não?')
+                        await canal.send(c0[10].format(primeiro_nome=primeiro_nome))
                         i3 += 1
                         x = False
-                        extress += 1
+                        estreseReturn = await selectMilka("CTRL_HUMOR")
+                        extress = [x[0] for x in estreseReturn][0] + 1
+                            
+                        if extress > 7:
+                            extress = 7
+
+                        await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
                         continue
+                    
                     else:
                         await imge()
-                        await canal.send('Vocês me cansam!')
+                        await canal.send(c0[11])
                         resp = member.display_name
                         i3 = 0
                         i += 1
                         x = True
-                        extress += 2
-                        respostas.append(name)
+                        estreseReturn = await selectMilka("CTRL_HUMOR")
+                        extress = [x[0] for x in estreseReturn][0] + 2
+                            
+                        if extress > 7:
+                            extress = 7
+
+                        await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
                         continue
                     
                 xi = 'QR code'
@@ -585,80 +606,53 @@ async def func(member, pedente=False):
                     como_chegou = msg.content
                     i += 1
                     x = True
-                    respostas.append(como_chegou)
-                    print("Mesagem aqui: ->",respostas)
-                    await canal.send('Em um papel que alguém deixou? interessante')
+                    await canal.send(c1[1])
                     await asyncio.sleep(2)
-                    await canal.send('Não é que funcionou mesmo, direi ao Mikhail...')
+                    await canal.send(c1[2])
                     await asyncio.sleep(2)
                     continue
 
                 elif i == 1 and any(x in msg.content.lower() for x in convidado):
                     alguem = ''
                     st = f''
-                    await canal.send('O nome de quem te convidou?')
+                    await canal.send(c1[3])
                     alguem = await bot.wait_for('message', check=check, timeout=60)
                     alguem.content = await milk(primeiro_nome, alguem.content, st)
-                    respostas.append(alguem.content)
-                    print("Mesagem aqui: ->",respostas)
                     como_chegou = alguem.content
                     i += 1
                     x = True
                     await asyncio.sleep(1)
                     continue
+                
+                estreseReturn = await selectMilka("HUMOR")
+                extress = [x[0] for x in estreseReturn][0]
 
-                if i == 2 and '1' in msg.content:
-                    estilo_musical = '01'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
+                conds = {
+                    '1':'01',
+                    '2':'02',
+                    '3':'03',
+                    '4':'04',
+                    '5':'05',
+                    '6':'06',
+                    '7':'07',
+                    '8':'08',
+                }
 
-                elif i == 2 and '2' in msg.content:
-                    estilo_musical = '02'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '3' in msg.content:
-                    estilo_musical = '03'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '4' in msg.content:
-                    estilo_musical = '04'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '5' in msg.content:
-                    estilo_musical = '05'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '6' in msg.content:
-                    estilo_musical = '06'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '7' in msg.content:
-                    estilo_musical = '07'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
-                elif i == 2 and '8' in msg.content:
-                    estilo_musical = '08'
-                    await ender(name, '', estilo_musical)
-                    respostas.append(estilo_musical)
-
+                for x, y in conds.items():
+                    if x in msg.content and i == 2:
+                        estilo_musical = y
+                        await ender(name, '', estilo_musical)
+        
                 i += 1
 
-            # Aqui você pode salvar as respostas se quiser
             await insertUser(
                 member.id ,name, como_chegou, int(estilo_musical)
                 )
-            #await escrevoHumor
             
-            await canal.send(f"{member.mention}, Terminamos.")
-            await canal.send(f"Agora você seguirá para a república, pronto?")
+            await canal.send(c2[1].format(member_mention=member.mention))
+            await canal.send(c2[2])
+
             try:
-                print('lista de pendentes:', arquivo2)
                 alguem = await bot.wait_for('message', check=check, timeout=20)
             # Troca de role: remove a role de verificação e dá a de membro
                 if alguem.content:
@@ -666,16 +660,19 @@ async def func(member, pedente=False):
                     await member.remove_roles(role_inicial)
                     if role_membro:
                         await member.add_roles(role_membro)
-                    extress -= 1
+                    
+                    estreseReturn = await selectMilka("CTRL_HUMOR")
+                    extress = [x[0] for x in estreseReturn][0] - 2
                     if extress < 0:
                         extress = 0
+                    await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
 
             # Apagar o canal de cadastro
                     await verifico_id_lista(str(member.id), 'milka_docs/ids.txt')
                     await canal.delete()
                     if member.id in arquivo2:
                         await deleteUser('pendents', member.id)  # Removendo da lista carregada
-
+            
             except asyncio.TimeoutError:
                 role_membro = member.guild.get_role(MEMBER_ROLE)
                 await member.remove_roles(role_inicial)
@@ -684,22 +681,15 @@ async def func(member, pedente=False):
 
             # Apagar o canal de cadastro
                 await canal.delete()
-                print(respostas)
                 await verifico_id_lista(str(member.id), 'milka_docs/ids.txt')
                 await dellDesk("on_server")
-                extress -= 1
-                if extress < 0:
-                    extress = 0
-                await insertUser(
-                member.id, name, como_chegou, int(estilo_musical),
-                )
-                #print(extress)
 
         except asyncio.TimeoutError:
             await canal.send(f"{member.mention}, você demorou muito pra responder. Tente novamente mais tarde.")
             if str(member.id) not in arquivo2:
                 await member.kick()
                 await canal.delete()
+            
             else:
                 await canal.delete()
                 role_membro = member.guild.get_role(MEMBER_ROLE)
@@ -758,7 +748,6 @@ async def on_message(message):
     user_id = message.author.id
     user = message.author
     bote = bot.user.display_name.lower()
-
     # Usando banco de dados você pode trazer todas as informações do usuário aqui para usar nas frases.
 
     if message.author == bot.user:
@@ -772,145 +761,169 @@ async def on_message(message):
     }
 
     respostasMilka = {
-        ('milka','jukebox'): 'Você pode usar o comando !play seguido do nome do ritmo que você quer tocar.',
-        ('milka', 'como vai?'): 'Ocupada. Você me acha rude? Não sou! E que o segredo da boa militância é o profissionalismo. Nós lidamos com uma máquina muito profissional.',
-        ('milka', 'como', 'tocar', 'city pop?'): 'Para tocar city pop, use o comando !playjpop na jukebox.',
-        ('usa', 'drogas'): 'Geralmente eu ajeito a roupa depois das tarefas, porque isso me deixa lenta.',
-        ('milka', 'qual é', 'seu estilo de música preferido?'): 'Eu sempre gosto de sentar em uma das mesas enquanto escuto rocks do século XX, fica ótimo do banheiro, agora pra ouvir lá de fora, popcity fica ótimo abafado.',
-        ('tranquilo, camarada', 'cansada', 'dia todo.',): 'É... mas já acabou, vou parar um pouco pra ouvir city pop. você teve alguma notícia do pessoal ou da serra?',
-        ('acompanhar', 'muder', 'transmissão',): 'e como estão as coisas por lá?',
-        ('federação', 'planejando', 'operação', 'articulando',): 'ela deve vir pra falar sobre isso, vai vir sozinha?',
-        ('não', 'você', 'preocupada',): 'Nós temos muitos com quem nos preocuparmos. Ela deve vir pra tentar uma comunicação com as organizações urbanas, tem falado com eles?'
+        ('milka','jukebox'): falas_chat_comum[0],
+        ('milka', 'como vai?'): falas_chat_comum[1],
+        ('milka', 'como', 'tocar', 'city pop?'): falas_chat_comum[2],
+        ('usa', 'drogas'): falas_chat_comum[3],
+        ('milka', 'qual é', 'seu estilo de música preferido?'): falas_chat_comum[4],
+        ('tranquilo, camarada', 'cansada', 'dia todo.',): falas_chat_comum[5],
+        ('acompanhar', 'muder', 'transmissão',): falas_chat_comum[6],
+        ('federação', 'planejando', 'operação', 'articulando',): falas_chat_comum[7],
+        ('não', 'você', 'preocupada',): falas_chat_comum[8]
     }
 
     await executofala(conversamuder, message)
     await faloUsers(respostasMilka, message, canal)
-
     def deve_enviar(canal_texto, canal_audio_esperado):
         return (
             message.channel.id == canal_texto and
             not (message.author.voice and message.author.voice.channel and message.author.voice.channel.id == canal_audio_esperado)
         )
+    async def enviar_mensagem_ambiente(
+    canal_id_texto,
+    canal_id_audio,
+    titulo,
+    descricao,
+    cor,
+    imagem_url,
+    message,
+    nome_local
+):
+        user_id = message.author.id
+
+        if not deve_enviar(canal_id_texto, canal_id_audio):
+            return
+
+        if message.author.bot:
+            return
+
+        mensagens_por_usuario[(user_id, canal_id_texto)] += 1
+        count = mensagens_por_usuario[(user_id, canal_id_texto)]
+
+        if count % 20 == 0 or count == 1:
+            embed = discord.Embed(
+                title=titulo,
+                description=descricao.format(name=message.author.name),
+                color=cor
+        )
+            embed.set_image(url=imagem_url)
+            embed.add_field(
+                name="🎧 Entrar no canal de áudio",
+                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{canal_id_audio})",
+                inline=False
+        )
+            await message.channel.send(embed=embed)
 
     # CORREDOR
-    if deve_enviar(CANAL_TEXTO_CORREDOR, CANAL_AUDIO_CORREDOR):
-        if message.author.bot:
-            return
-        mensagens_por_usuario[(user_id, CANAL_TEXTO_CORREDOR)] += 1
-        count = mensagens_por_usuario[(user_id, CANAL_TEXTO_CORREDOR)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title="🌆 Corredor",
-                description=f"{message.author.name}, Perceba ao fundo... de longe você ouve a música que vem do bar enquanto está no corredor banhado pelo neon vermelho.",
-                color=0xFF3C3C
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/53/4e/0b/534e0b642a92c6bd5fe2a12929d899c8.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_AUDIO_CORREDOR})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_CORREDOR,
+    CANAL_AUDIO_CORREDOR,
+    "🌆 Corredor",
+    "{name}, Perceba ao fundo... de longe você ouve a música que vem do bar enquanto está no corredor banhado pelo neon vermelho.",
+    0xFF3C3C,
+    "https://i.pinimg.com/736x/53/4e/0b/534e0b642a92c6bd5fe2a12929d899c8.jpg",
+    message,
+    "corredor"
+)
 
-    # EXTERIOR
-    elif deve_enviar(CANAL_TEXTO_EXTERIOR, CANAL_AUDIO_EXTERIOR):
-        mensagens_por_usuario[(user_id, CANAL_TEXTO_EXTERIOR)] += 1
-        count = mensagens_por_usuario[(user_id, CANAL_TEXTO_EXTERIOR)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title="🌧️ Exterior",
-                description=f"{message.author.name}, ouça o som da noite... daqui das escadas você pode parar para apreciar a chuva e pássaros cantando.",
-                color=0x00BFFF
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/d4/32/49/d432499aa3a0c6d7bf7315caf4263e21.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_AUDIO_EXTERIOR})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_EXTERIOR,
+    CANAL_AUDIO_EXTERIOR,
+    "🌧️ Exterior",
+    "{name}, ouça o som da noite... daqui das escadas você pode parar para apreciar a chuva e pássaros cantando.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/d4/32/49/d432499aa3a0c6d7bf7315caf4263e21.jpg",
+    message,
+    "exterior"
+)
+
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_ESCADARIA,
+    CANAL_AUDIO_ESCADARIA,
+    "🪜 Escadaria",
+    "{name}, ficar sentado na escada pode ser relaxante, mas com música a experiência é inexplicável.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/17/06/23/170623e163253b2d45666438ffc4e034.jpg",
+    message,
+    "escadaria"
+)
+
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_BANHEIRO,
+    CANAL_AUDIO_BANHEIRO,
+    "🚽 Banheiro",
+    "{name}, está aproveitando a solidão do banheiro? Você pode curtir ainda mais ativando o som ambiente:",
+    0xAAAAAA,
+    "https://i.pinimg.com/736x/28/7a/97/287a97445a31f65b973b14614d88816c.jpg",
+    message,
+    "banheiro"
+)
+
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_SALA,
+    CANAL_TELEVISAO,
+    "📺 Sala principal",
+    "{name}, ligue a TV, talvez para ver um dos canais ou para ter um som de fundo diferente enquanto conversa.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/f7/88/eb/f788eb666869d349cc04690acdd6307d.jpg",
+    message,
+    "sala"
+)
+
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_BALCAO,
+    CANAL_AUDIO_JUKEBOX,
+    "🍸 Bar",
+    "{name}, o som da jukebox te envolve com conforto. No balcão, um momento de pausa, como se o mundo lá fora estivesse longe demais pra importar agora.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/2d/bb/87/2dbb8795cb42d2380d14d1e8258700ab.jpg",
+    message,
+    "balcão"
+)
+
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_MESA_1,
+    CANAL_AUDIO_JUKEBOX,
+    "🪑mesa-um",
+    "{name}, essa mesa perto da entrada sempre tem algo acontecendo. Entre um gole e outro, conversas desconexas e risadas atravessam o ar ao som da jukebox ao fundo.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/2d/bb/87/2dbb8795cb42d2380d14d1e8258700ab.jpg",
+    message,
+    "mesa 1"
+)
     
-    #ESCADARIA
-    elif deve_enviar(CANAL_TEXTO_ESCADARIA, CANAL_AUDIO_ESCADARIA):
-        mensagens_por_usuario[(user_id, CANAL_TEXTO_ESCADARIA)] += 1
-        count = mensagens_por_usuario[(user_id, CANAL_TEXTO_ESCADARIA)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title=": 🪜 Escadaria",
-                description=f"{message.author.name}, ficar sentado na escada pode ser relaxante, mas com música a experiência é inexplicável.",
-                color=0x00BFFF
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/17/06/23/170623e163253b2d45666438ffc4e034.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_AUDIO_ESCADARIA})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_MESA_2,
+    CANAL_AUDIO_JUKEBOX,
+    "🪑mesa-dois",
+    "{name}, essa mesa no canto é pra quem prefere observar. Pouca luz, muito silêncio. Só você, seu copo, e a música sussurrando memórias que nunca viveu.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/2d/bb/87/2dbb8795cb42d2380d14d1e8258700ab.jpg",
+    message,
+    "mesa 2"
+)
 
-    # BANHEIRO
-    elif deve_enviar(CANAL_TEXTO_BANHEIRO, CANAL_AUDIO_BANHEIRO):
-        mensagens_por_usuario[(user_id, CANAL_TEXTO_BANHEIRO)] += 1
-        count = mensagens_por_usuario[(user_id, CANAL_TEXTO_BANHEIRO)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title="🚽 Banheiro",
-                description=f"{message.author.name}, está aproveitando a solidão do banheiro? Você pode curtir ainda mais ativando o som ambiente:",
-                color=0xAAAAAA
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/28/7a/97/287a97445a31f65b973b14614d88816c.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_AUDIO_BANHEIRO})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
-    
-    elif deve_enviar(CANAL_TEXTO_SALA, CANAL_TELEVISAO):
-        mensagens_por_usuario[(user_id, CANAL_TEXTO_SALA)] += 1
-        count = mensagens_por_usuario[(user_id, CANAL_TEXTO_SALA)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title="📺 Sala pricipal",
-                description=f"{message.author.name}, ligue a TV, talvez para ver um dos canais ou para ter um som de fundo diferente enquanto conversa.",
-                color=0x00BFFF
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/f7/88/eb/f788eb666869d349cc04690acdd6307d.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_TELEVISAO})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
-
-    # MESAS E BALCÃO (compartilham canal de áudio do bar)
-    elif message.channel.id in [CANAL_TEXTO_BALCAO, CANAL_TEXTO_MESA_1, CANAL_TEXTO_MESA_2, CANAL_TEXTO_MESA_3] and not (
-        message.author.voice and message.author.voice.channel and message.author.voice.channel.id == CANAL_AUDIO_JUKEBOX
-    ):
-        if message.author.bot:
-            return
-        mensagens_por_usuario[(user_id, message.channel.id)] += 1
-        count = mensagens_por_usuario[(user_id, message.channel.id)]
-        if count % 20 == 0 or count == 1:
-            embed = discord.Embed(
-                title="🎵 Jukebox do Bar",
-                description=f"{message.author.name}, aproveite a ambientação completa. A música está rolando no bar — junte-se ao som!",
-                color=0xFFD700
-            )
-            embed.set_image(url="https://i.pinimg.com/736x/c4/f5/d2/c4f5d20824551a5fcf52f60f6b6dfbb7.jpg")
-            embed.add_field(
-                name="🎧 Entrar no canal de áudio",
-                value=f"[Clique aqui para entrar](https://discord.com/channels/{ID_SERVIDOR}/{CANAL_AUDIO_JUKEBOX})",
-                inline=False
-            )
-            await message.channel.send(embed=embed)
+    await enviar_mensagem_ambiente(
+    CANAL_TEXTO_MESA_3,
+    CANAL_AUDIO_JUKEBOX,
+    "🪑mesa-três",
+    "{name}, aqui o som pulsa mais alto, direto do coração da jukebox. Quem senta nessa mesa não quer paz — quer presença, ritmo, e talvez um motivo pra não voltar pra casa.",
+    0x00BFFF,
+    "https://i.pinimg.com/736x/2d/bb/87/2dbb8795cb42d2380d14d1e8258700ab.jpg",
+    message,
+    "mesa 3"
+)
     
     retorno = await selectMilka("ULT_COM_")
     comodos = [com[0] for com in retorno]
     localmilka = comodos[0]
+    estreseReturn = await selectMilka("HUMOR")
+    estrese = [x[0] for x in estreseReturn][0]
+    falasReturn = await selectTalks(estrese)
+    falas = [x[0] for x in falasReturn]
 
     if message.content.lower() == 'milka' and canal.id == localmilka:
-        await falo_padrão(fala_padrao, canal, msg=message)
+        await falo_padrão(falas, canal, msg=message)
 
     await bot.process_commands(message)
 
@@ -919,45 +932,43 @@ async def falo(extres, fala, canal):
 
 async def falo_padrão(frase, canal, estress=None, msg = None):
     global ii
-    i = await valid_extress(extress, await vejoHumor())
-    await msg.reply(frase[i][ii])
+    #i = await valid_extress(extress, await vejoHumor())
+    await msg.reply(frase[ii])
     await procuro_pendent(msg.author, str(msg.author.id), canal, msg)
 
     confirm_ = await bot.wait_for('message', check=lambda m: m.channel == canal)
-    
+
     if confirm_.content == '>':
         ii += 1
         if ii > 2:
             ii = 0
         await falo_padrão(frase, canal, msg=msg)
 
-
 async def valid_extress(extres1, extres2):
+    estreseReturn = await selectMilka("CTRL_HUMOR")
+    extres1 = [x[0] for x in estreseReturn][0]
+    
     if extres1 < 3:
         await updtMilka("HUMOR", "NAME", 0, "Milka")
-
+        return 0
     elif 5 > extres1 >= 3:
         await updtMilka("HUMOR", "NAME", 1, "Milka")
-            
+        return 1
     elif extres1 >= 5:
         await updtMilka("HUMOR", "NAME", 2, "Milka")
+        return 2
     
-    returno = await selectMilka("HUMOR")
-    returnos = [x[0] for x in returno]
-    return returnos[0]
-
-#extress_
 async def procuro_pendent(author, id, canal, msg= None):
-    global extress, perguntados
-
+    global perguntados
     pends = await verifyUser('pendents')
     arquivo = [pendente[0] for pendente in pends]
-    
+    extressR = await selectMilka('HUMOR')
+    extress = [x[0] for x in extressR][0]
+
     if int(id) in arquivo:
         
         await falo(await valid_extress(extress, await vejoHumor()), falas_pendent, canal)
         await asyncio.sleep(2)
-
         await func(author, True)
     
     else:
@@ -1039,5 +1050,4 @@ async def chamar(ctx):
             canal = bot.get_channel(x)
             await canal.send(f"{ctx.author} está chamando a todos para uma reunião na sala principal.")
 
-# Coloque seu token aqui
 bot.run(getenv("TOKKEN_ADM_BOT"))
