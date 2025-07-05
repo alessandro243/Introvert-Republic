@@ -9,6 +9,7 @@ import threading
 import time
 from dotenv import load_dotenv
 from os import getenv
+from db_files.milka_db_utils import selectInventario
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 CANAL_TEXTO_AUTORIZADO = 1354311386100011078
-FFMPEG_PATH = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_PATH = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 voice_client_global = None
 play_task = None
@@ -149,26 +150,98 @@ async def on_message(message):
         with open('estadojuke\\jukeconect.txt', 'w') as f:
             f.write('False')
 
-        # Escolher pasta baseado no comando
+        cdRet = ''
         pasta = None
         if message.content.startswith(getenv('PLAYLIST1')):
+            cdRet = await selectInventario(1, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de jpop' not in cdRet[0]:
+                print('entrei')
+                await message.channel.send('Você precisa encontrar o cd de city pop para tocar essa trilha.')
+                return
+            
             pasta = 'jp_'
+            cdRet = ''
         elif message.content.startswith(getenv('PLAYLIST2')):
+            cdRet = await selectInventario(2, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de rock' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de rock para tocar essa trilha.')
+                return
+            
             pasta = 'ro_'
+            cdRet = ''
+        
         elif message.content.startswith(getenv('PLAYLIST3')):
+            cdRet = await selectInventario(6, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de música alternativa' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de músicas alternativas para tocar essa trilha.')
+                return
+            
             pasta = 'a_'
+            cdRet = ''
+        
         elif message.content.startswith(getenv('PLAYLIST4')):
+            cdRet = await selectInventario(3, message.author.id)
+            print(cdRet)            
+            if len(cdRet) < 1 or 'Disco de synthpop' not in cdRet[0]:
+                print('não vai rolaaaaaaaaaaaaaaaaaaaaaaaar')
+                await message.channel.send('Você precisa encontrar o cd de synth pop para tocar essa trilha.')
+                return
+            
             pasta = 'sy_'
+            cdRet = ''
+            print('vai rolaaaaaaaaaaaaaaaaaaaaaaaar')
+       
         elif message.content.startswith(getenv('PLAYLIST5')):
+            cdRet = await selectInventario(9, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de chilled hiphop' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de chilled hiphop para tocar essa trilha.')
+                return
+            
             pasta = 'ch_'
+            cdRet = ''
         elif message.content.startswith(getenv('PLAYLIST6')):
+            cdRet = await selectInventario(5, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de vinil' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de músicas de vinil para tocar essa trilha.')
+                return
+            
             pasta = 'vi_'
+            cdRet = ''
+
         elif message.content.startswith(getenv('PLAYLIST7')):
+            cdRet = await selectInventario(7, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de mpb' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de mpb para tocar essa trilha.')
+                return
+            
             pasta = 'mp_'
+            cdRet = ''
+
         elif message.content.startswith(getenv('PLAYLIST8')):
+            cdRet = await selectInventario(8, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de lofi' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de lofi para tocar essa trilha.')
+                return
+            
             pasta = 'lo_'
+            cdRet = ''
+
         elif message.content.startswith(getenv('PLAYLIST9')):
+            cdRet = await selectInventario(4, message.author.id)
+            
+            if len(cdRet) < 1 or 'Disco de oldrock' not in cdRet[0]:
+                await message.channel.send('Você precisa encontrar o cd de rocks antigos para tocar essa trilha.')
+                return
+            
             pasta = 'old_'
+            cdRet = ''
 
 
         if pasta:
@@ -372,14 +445,14 @@ async def atualiza_tempo(voice_client, tempo=None):
         tempo_passado = tempo
 
     while voice_client.is_connected() and voice_client.is_playing():
-        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', tempo_passado, type(tempo_passado))
+        #print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', tempo_passado, type(tempo_passado))
         tempo_passado += 1  # ou calcule o tempo real
         with open("estadojuke\\tempomusica.txt", "w") as f:
             f.write(str(tempo_passado))
         await asyncio.sleep(1)
-        print(vari)
+        #print(vari)
         if vari:
-            print('vari no if: ', vari)
+            #print('vari no if: ', vari)
             vari = False
             with open("estadojuke\\tempomusica.txt", "w") as f:
                 f.write(str(0))
@@ -388,7 +461,7 @@ async def atualiza_tempo(voice_client, tempo=None):
     # Se já existe timer rodando, cancela ele
             if timer_task and not timer_task.done():
                 timer_task.cancel()
-            print('oie')
+            #print('oie')
 
     # cria e inicia um novo timer para contar a música atual
             timer_task = asyncio.create_task(atualiza_tempo(voice_client_global))

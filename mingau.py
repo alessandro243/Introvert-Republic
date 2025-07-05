@@ -27,7 +27,7 @@ locais7 = ['mesa 1']
 locais8 = ['mesa 2']
 locais9 = ['mesa 3']
 
-FFMPEG_PATH = "C:\\Users\\Thalita\\Downloads\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_PATH = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 LOCAIS = [CANAL_TEXTO_SALA, CANAL_TELEVISAO, CANAL_AUDIO_JUKEBOX, CANAL_TEXTO_BALCAO, CANAL_TEXTO_MESA_1, CANAL_TEXTO_MESA_2, CANAL_TEXTO_MESA_3,
 CANAL_AUDIO_BANHEIRO, CANAL_TEXTO_BANHEIRO, CANAL_AUDIO_CORREDOR, CANAL_TEXTO_CORREDOR, CANAL_AUDIO_EXTERIOR, CANAL_TEXTO_EXTERIOR,

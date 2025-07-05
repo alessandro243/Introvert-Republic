@@ -13,7 +13,7 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKKEN_TELEVISAO')
 
-FFMPEG_PATH = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_PATH = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 PASTAS = ['canal 01', 'canal 05', 'canal 92', 'canal 153', 'canal 223', 'canal 450']
 ESTADO_DIR = 'estado'

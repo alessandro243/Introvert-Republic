@@ -20,8 +20,7 @@ TARGET_TEXT_CHANNEL_ID = 1365765011464523910  # <== troque para seu canal de tex
 TARGET_VOICE_CHANNEL_ID = 1365765011464523910  # canal de voz
 
 # Caminho para o executável do ffmpeg
-FFMPEG_EXECUTABLE = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
-
+FFMPEG_EXECUTABLE = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 # Estado global
 dt_format = "%Y-%m-%d"
 ja_choveu_hoje = False

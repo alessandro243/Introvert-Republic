@@ -20,7 +20,7 @@ ID_CANAL_DE_VOZ = 1376065935235874948  # Corredor
 ID_CANAL_TEXTO = 1221647823052906607   # Canal de texto do corredor
 
 FFMPEG_PATH = (
-    "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+    "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 )
 
 voice_client_global = None

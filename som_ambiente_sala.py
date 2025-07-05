@@ -21,7 +21,7 @@ ID_CANAL_DE_VOZ = 1365765011464523910
 ID_CANAL_TEXTO = 1221650782364762164
 
 # Caminho do ffmpeg
-FFMPEG_PATH = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_PATH = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 voice_client_global = None
 player = None

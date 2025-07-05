@@ -17,7 +17,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 ID_CANAL_DE_VOZ = 1376116149472727111  # ID do canal de voz do corredor
-FFMPEG_PATH = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_PATH = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 voice_client_global = None
 player = None

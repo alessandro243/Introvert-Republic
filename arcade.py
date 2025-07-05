@@ -13,7 +13,7 @@ load_dotenv()
 TOKEN = getenv('TOKKEN_ARCADE')
 ID_CANAL_VOZ = 1354311386100011078
 NOME_BOT = 'Jukebox'
-FMPEG = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FMPEG = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 # ====================================================
 
 intents = discord.Intents.default()

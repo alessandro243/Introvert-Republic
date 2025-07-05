@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 # Substitua com o ID do canal que você deseja monitorar
 TARGET_CHANNEL_ID = 1366035560249954315  # ID do seu canal de voz
 AUDIO_FILE = "chuva.mp3"  # Caminho do arquivo de áudio que você quer tocar
-FFMPEG_EXECUTABLE = "C:\\Users\\Usuario\\Desktop\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
+FFMPEG_EXECUTABLE = "C:\\Users\\Thalita\\Desktop\\Alessandro\\ffmpeg-7.1.1-essentials_build\\ffmpeg-7.1.1-essentials_build\\bin\\ffmpeg.exe"
 
 @bot.event
 async def on_ready():

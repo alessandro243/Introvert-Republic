@@ -3,13 +3,13 @@ from discord.ext import commands
 from collections import defaultdict
 from dotenv import load_dotenv
 from os import getenv
-from db_files.milka_db_utils import insertUser, verifyUser, insertPendent, deleteUser, selectMilka, updtMilka, insertAsked, verifyaskeds, truncTable, verifyterms, selectTalks
+from db_files.milka_db_utils import insertUser, verifyUser, insertPendent, deleteUser, selectMilka, updtMilka, insertAsked, verifyaskeds, truncTable, verifyterms, selectTalks, insertInventario, selectInventario, deletarCDsDoInventario
 import os
 import asyncio
 import random
 import datetime
 from milka_docs.falas import falas_pendent, fala_padrao, fala_bots, falas_chat_comum
-import mysql.connector
+#import mysql.connector
 load_dotenv()
 
 intents = discord.Intents.default()
@@ -341,7 +341,7 @@ async def func(member, pedente=False):
     perguntas = [
     c0[0].format(member_display_name=member.display_name),
     c1[0].format(member_display_name=member.display_name),
-    c2[0].format(member_display_name=member.display_name),
+    c2[0].format(member_display_name=member.display_name).replace("\\n", "\n"),                                                           
 ]
     
     task1 = asyncio.create_task(isOn(member, canal))
@@ -399,7 +399,7 @@ async def func(member, pedente=False):
         estreseReturn = await selectMilka("HUMOR")
         extress = [x[0] for x in estreseReturn][0]
 
-        async def ender(nome, convite, estilo):
+        async def ender(nome, convite, estilo, cd, comando):
             estreseReturn = await selectMilka("CTRL_HUMOR")
             extress = [x[0] for x in estreseReturn][0]
             end0R = await selectTalks(0, 'end0')
@@ -422,12 +422,10 @@ async def func(member, pedente=False):
 
             async def endier(lista):
                 for x in lista:
-                    
-                    if "{nome}" in x:
-                       x = x.format(nome=primeiro_nome)
-                    elif "{estilo}" in x:
-                       x = x.format(estilo=estilo)
-
+                    try:
+                        x = x.format(nome=primeiro_nome, estilo=cd, comando=comando)
+                    except KeyError:
+                        pass  # Ignora placeholders que não existem na string
                     await canal.send(x)
                     await asyncio.sleep(1)
 
@@ -486,6 +484,7 @@ async def func(member, pedente=False):
 
         try:
             x = True
+            r = False
             while i < len(perguntas):
                 await msge(x)
                 msg = await bot.wait_for('message', check=check, timeout=120)
@@ -613,42 +612,147 @@ async def func(member, pedente=False):
                     continue
 
                 elif i == 1 and any(x in msg.content.lower() for x in convidado):
+                    
+                    humorret = await selectMilka('CTRL_HUMOR')
+                    humor = int([x[0] for x in humorret][0])
+                    
+                    if humor < 3:
+                        await escrevoHumor(0)
+
+                    elif 5 > humor >= 3:
+                        await escrevoHumor(1)
+            
+                    elif humor >= 5:
+                        await escrevoHumor(2)
+
                     alguem = ''
                     st = f''
+
                     await canal.send(c1[3])
                     alguem = await bot.wait_for('message', check=check, timeout=60)
                     alguem.content = await milk(primeiro_nome, alguem.content, st)
+                    guild_ = bot.guilds[0]
+                    members = [x.display_name.split()[0].lower() if ' ' in x.display_name else x.display_name.lower() for x in guild_.members]
+                    primeiro_nome_alg = alguem.content.split()[0].lower() if ' ' in alguem.content else alguem.content.lower()
+                    
+                    if primeiro_nome_alg.lower() not in members:
+                        humorret = await selectMilka('HUMOR')
+                        humor = int([x[0] for x in humorret][0])
+                        unk0Return = await selectTalks(cond='unk2', humor=0)
+                        unk1Return = await selectTalks(cond='unk2', humor=1)
+                        unk2Return = await selectTalks(cond='unk2', humor=2)
+                        unk0 = [x[0].format(primeiro_nome_alg=primeiro_nome_alg) for x in unk0Return][0]
+                        unk1 = [x[0].format(primeiro_nome_alg=primeiro_nome_alg) for x in unk1Return][0]
+                        unk2 = [x[0].format(primeiro_nome_alg=primeiro_nome_alg) for x in unk2Return][0]
+                        unks =[unk0, unk1, unk2]
+                        possi = [x for x in members if x[0:3] == primeiro_nome_alg[0:3]]
+                        x = True
+                        await canal.send(unks[humor])
+                        
+                        if int(humor) == 2:
+                            r = True
+                        
+                        if len(possi) > 0:
+                            await canal.send(f"Você quis dizer {possi[0].capitalize()}?")
+                            resp = await bot.wait_for('message', check=check, timeout=60)
+                            positiveReturn = await verifyterms("pos")
+                            positiva = [x[0] for x in positiveReturn]
+                            unkReturn = await verifyterms("unk")
+                            unk = [x[0] for x in positiveReturn]
+                            negReturn = await verifyterms("neg")
+                            negativa = [x[0] for x in negReturn]
+                            
+                            if resp.content.lower() in positiva:
+                                como_chegou = f'{possi[0].capitalize()} convidou.'
+                                i += 1
+                                x = True
+                                await asyncio.sleep(1)
+                                continue
+                            
+                            elif resp.content.lower() in negativa:
+                                x = True
+                                estreseReturn = await selectMilka("CTRL_HUMOR")
+                                extress = [x[0] for x in estreseReturn][0] + 1
+                                if extress > 7:
+                                    extress = 7
+                                await updtMilka("CTRL_HUMOR", 'NAME', extress, 'Milka')
+                                if r:
+                                    i += 1
+                                    como_chegou = f'Não sabe o nome de quem convidou.'
+                                    await asyncio.sleep(1)
+                                continue
+                            
+                            if resp.content.lower() in unk:
+             
+                                como_chegou = f'Não sabe o nome de quem convidou.'
+                                i += 1
+                                x = True
+                                await asyncio.sleep(1)
+                                continue
+
+                        como_chegou = f'{alguem.content} convidou.'
+                        await asyncio.sleep(1)
+                        continue
+
                     como_chegou = alguem.content
                     i += 1
                     x = True
                     await asyncio.sleep(1)
                     continue
+
+                elif i == 1:
+                    if len(msg.content) < 3:
+                        await canal.send(f"{msg.content}? O que?")
+                        x = False
+                        continue
+
+                    i += 1
+                    x = True
+                    como_chegou = msg.content
+                    await asyncio.sleep(1)
+                    continue
                 
                 estreseReturn = await selectMilka("HUMOR")
                 extress = [x[0] for x in estreseReturn][0]
-
+                cd_n = ''
                 conds = {
-                    '1':'01',
-                    '2':'02',
-                    '3':'03',
-                    '4':'04',
-                    '5':'05',
-                    '6':'06',
-                    '7':'07',
-                    '8':'08',
+                    '1':['city pop', '!playjpop'],
+                    '2':['rock', '!playrock'],
+                    '3':['synth pop', '!playpop'],
+                    '4':['oldrock', '!playoldrock'],
+                    '5':['músicas de vinil', '!playvinil'],
+                    '6':['música alternativa', '!playalternative'],
+                    '7':['mpb', '!playMPB'],
+                    '8':['lo-fi', '!playlofi'],
+                    '9':['chilled hip hop', '!playchill']
                 }
 
-                for x, y in conds.items():
+                if str(msg.content) not in conds.keys():
+                    await canal.send(f"Escolha inválida! Escolha um dos discos disponíveis.")
+                    x = False
+                    await asyncio.sleep(1)
+                    continue
+
+                for x, y in conds.items(): 
                     if x in msg.content and i == 2:
-                        estilo_musical = y
-                        await ender(name, '', estilo_musical)
+                        cd_n = y
+                        estilo_musical = x
+                        print('entrei, e o estilo musical é: ', estilo_musical)
+                        await ender(name, '', estilo_musical, cd_n[0], cd_n[1])                                                         
         
                 i += 1
 
             await insertUser(
                 member.id ,name, como_chegou, int(estilo_musical)
                 )
-            
+
+            regsR = await selectInventario(int(estilo_musical), member.id)
+            print('regs', regsR,'estilo', estilo_musical, 'idmembro', member.id)
+
+            if len(regsR) > 0:
+                await deletarCDsDoInventario(member.id)
+
+            await insertInventario(member.id, int(estilo_musical), 1)
             await canal.send(c2[1].format(member_mention=member.mention))
             await canal.send(c2[2])
 
