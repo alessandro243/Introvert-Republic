@@ -2,6 +2,21 @@
 
 <h2 align="center">Nosso canto entre o digital e o físico</h2>
 
+## 💻 Visão Técnica
+
+Projeto desenvolvido em Python utilizando a biblioteca discord.py para criação de um sistema interativo no Discord.
+
+### Principais conceitos aplicados:
+- Programação assíncrona (async)
+- Sistema de múltiplos bots interconectados
+- Sincronização de estados entre bots via arquivos
+- Lógica de comportamento (NPCs)
+- Manipulação de eventos em tempo real
+
+### Objetivo
+Simular um ambiente virtual interativo onde bots atuam como entidades autônomas dentro de um sistema integrado.
+🧠 O que muda com isso
+
 Você chegou à nossa república. Considere nosso lar sua segunda casa. Aqui, sob as luzes coloridas, nós aproveitamos o anonimato e a vibe da leve chuva que cai lá fora, ao som de diversas playlists. Você pode escolher um lugar tranquilo para conversar descontraidamente, então escolha uma mesa no bar e ligue a jukebox ou vasculhe cada segredo em nossa república.
 
 <p align='center' style="font-size: 15px"><b>Demo do servidor:</b></p>
